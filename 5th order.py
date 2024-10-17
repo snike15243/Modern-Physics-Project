@@ -21,4 +21,4 @@ for i in range(5):
     print(np.matmul(A[i],np.transpose(x)))
 
 print(x)
-print(x*21)
+print(f'1/12*{x*21}')
