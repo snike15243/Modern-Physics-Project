@@ -5,10 +5,10 @@ def fifthordernumderivative(x,i,dx):  #x is an array and i is the index of the d
     return 1/12*(f(x[i-2])-8*f(x[i-1])+8*f(x[i+1])-f(x[i+2]))/dx
 
 def f(x):
-    return np.sin(x)
+    return x**5
 
 def fp(x):
-    return np.cos(x)
+    return 5*x**4
 
 
 A=np.array([[1,1,1,1,1],
@@ -47,9 +47,10 @@ for i in range(200):
 err=xptlst-xplst
 print(f'error={abs(sum(err)/len(xlst))}')
 plt.figure()
-plt.plot(xlst,xplst,'-g')
-plt.plot(xlst,xptlst,'-b')
-plt.plot(xlst,err,'-r')
+plt.plot(xlst,xplst,'-g',label='real derivative')
+plt.plot(xlst,xptlst,'-b',label='numerical derivative')
+plt.plot(xlst,err,'-r',label='error')
+plt.legend()
 plt.show()
 
 #print(xlst)
