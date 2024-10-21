@@ -14,11 +14,31 @@ def cornerdetection_inputsignal(data_array, time_array, peak_or_through):
     for [counter, derivative], time in zip(enumerate(y), time_array):
         if peak_or_through == True:
             if counter < len(y)-1:
-                if (derivative >= 0) & (y[counter+1] <= 0):
+                nextindex = 0
+                for i in range(counter+1, len(y)):
+                    if time_array[i] > time:
+                        nextindex = i
+                        break
+                previndex = 0
+                for i in range(counter-1, 0, -1):
+                    if time_array[i] < time:
+                        previndex = i
+                        break
+                if ((derivative >= 0) or (y[previndex] >= 0)) & (y[nextindex] <= 0):
                     corner.append(time)
         else:
             if counter < len(y)-1:
-                if (derivative <= 0) & (y[counter+1] >= 0):
+                nextindex = 0
+                for i in range(counter + 1, len(y)):
+                    if time_array[i] > time:
+                        nextindex = i
+                        break
+                previndex = 0
+                for i in range(counter - 1, 0, -1):
+                    if time_array[i] < time:
+                        previndex = i
+                        break
+                if ((derivative <= 0) or (y[previndex] <= 0)) & (y[nextindex] >= 0):
                     corner.append(time)
     return corner
 
@@ -46,11 +66,21 @@ def cornerdetection_outputsignal(data_array, time_array,peak_or_through):
     for [counter, derivative], time in zip(enumerate(y), time_array):
         if peak_or_through == True:
             if counter < len(y)-1:
-                if (derivative >= 0) & (y[counter+1] <= 0):
+                nextindex = 0
+                for i in range(counter + 1, len(y)):
+                    if time_array[i] > time:
+                        nextindex = i
+                        break
+                if (derivative >= 0) & (y[nextindex] <= 0):
                     corner.append(time)
         else:
             if counter < len(y)-1:
-                if (derivative <= 0) & (y[counter+1] >= 0):
+                nextindex = 0
+                for i in range(counter + 1, len(y)):
+                    if time_array[i] > time:
+                        nextindex = i
+                        break
+                if (derivative <= 0) & (y[nextindex] >= 0):
                     corner.append(time)
     return corner
 
