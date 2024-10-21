@@ -5,6 +5,7 @@ import matplotlib.ticker as ticker
 from cornerdetection import cornerdetection_inputsignal, max_turnaround, to_the_sides, golay_filter_variable_window_size, cornerdetection_outputsignal
 from numderivative import nthorderfirstdegreenumderivative
 from scipy.signal import savgol_filter
+import copy
 
 # Load the data
 data_228 = pd.read_csv('Data/NewFile0.csv')
@@ -25,7 +26,7 @@ figax = []
 # Extract the data
 for counter, df in enumerate([data_array[0]]):
 
-    time = df.iloc[1:,0].to_numpy().astype(float)
+    time_old = df.iloc[1:,0].to_numpy().astype(float)
     input_signal = df.iloc[1:,1].to_numpy().astype(float)
     output_signal = df.iloc[1:,2].to_numpy().astype(float)
 
@@ -36,7 +37,12 @@ for counter, df in enumerate([data_array[0]]):
     #     output_signal[i] = np.mean(output_signal_old[time_old == timer])
     #     input_signal[i] = np.mean(input_signal_old[time_old == timer])
 
+    time2 = copy.deepcopy(time_old)
+    for index, timer in enumerate(np.unique(time_old)):
+        copycount = len(time_old[time_old == timer])
+        time_old[time_old == timer] = np.linspace(timer, timer + np.unique(time_old)[1] - np.unique(time_old)[0], copycount)
 
+    time = time_old
     input_signal_peaks = cornerdetection_inputsignal(input_signal, time, True)
     output_signal_peaks = cornerdetection_outputsignal(output_signal, time, True)
     input_signal_throughs = cornerdetection_inputsignal(input_signal, time, False)
