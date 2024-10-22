@@ -57,12 +57,13 @@ for i in range(len(xsol)-1):
     delta=np.append(delta,(xsol[i+1]-xsol[i]))
 print(f'difference between i+1 and i={delta}')
 print(f(xsol))
-f=open('an coeficient.txt','w')
+f=open(r'Resonance freq\an coeficient.txt','w')
 for i in range(len(xsol)):
     f.writelines(f'{i+1}\t'+str(xsol[i]))
     f.write('\n')
 
 plt.show()
+
 
 
 
