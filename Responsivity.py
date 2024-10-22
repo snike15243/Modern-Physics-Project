@@ -1,8 +1,16 @@
+
+
+
+#TODO: Make seperate window functions for input and output signal, and tweak parameters/totheside function to make it behave well
+
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-from cornerdetection import cornerdetection_inputsignal, max_turnaround, to_the_sides, golay_filter_variable_window_size, cornerdetection_outputsignal
+from cornerdetection import cornerdetection_inputsignal, max_turnaround, to_the_sides, \
+    golay_filter_variable_window_size, cornerdetection_outputsignal, windowsize
 from numderivative import nthorderfirstdegreenumderivative
 from scipy.signal import savgol_filter
 import copy
@@ -58,17 +66,27 @@ for counter, df in enumerate([data_array[0]]):
             switch_points.append(xf)
     print(output_signal_throughs, output_signal_peaks)
 
-    figax.append(plt.subplots())
+    figax.append(plt.subplots(1,1))
     figax[counter][1].scatter(time,input_signal , s=1)
-    figax[counter][1].vlines(x=input_signal_peaks, color='red', ymin=min(input_signal), ymax=max(input_signal))
-    figax[counter][1].vlines(x=input_signal_throughs, color='green', ymin=min(input_signal), ymax=max(input_signal))
+    #figax[counter][1].vlines(x=input_signal_peaks, color='red', ymin=min(input_signal), ymax=max(input_signal))
+    #figax[counter][1].vlines(x=input_signal_throughs, color='green', ymin=min(input_signal), ymax=max(input_signal))
     figax[counter][1].scatter(time, output_signal, s=1)
-    figax[counter][1].scatter(time, savgol_filter(input_signal, 100, 4, deriv=0, delta=(time[1]-time[0])), s=1)
-    figax[counter][1].plot(time, golay_filter_variable_window_size(output_signal, 4, time, deriv=0), linewidth=1)
+    #figax[counter][1].scatter(time, savgol_filter(input_signal, 100, 4, deriv=0, delta=(time[1]-time[0])), s=1)
+    figax[counter][1].plot(time, golay_filter_variable_window_size(input_signal, 4, time, deriv=0, innerwindow=100, innerwindow2=150, scalefactor=30000, max=150), linewidth=1)
+    figax[counter][1].plot(time, golay_filter_variable_window_size(output_signal, 4, time, deriv=0, innerwindow=10, innerwindow2=100, scalefactor=2000000, max=20), linewidth=1)
     figax[counter][1].vlines(x=output_signal_peaks, color='red', ymin=min(output_signal), ymax=max(output_signal))
     figax[counter][1].vlines(x=output_signal_throughs, color='green', ymin=min(output_signal), ymax=max(output_signal))
+    #figax[counter][1].plot(windowsize(input_signal, 4, time, innerwindow=100, innerwindow2=150, scalefactor=30000, max=150))
 
 
+    # figax[counter][1].plot(time, np.array(max_turnaround(
+    #      savgol_filter(abs(savgol_filter(input_signal, 100, 4, deriv=2, delta=(time[95+1] - time[95]))), 150,
+    #                   4)) / (2.5*10**29)))
+
+    #timepol = np.linspace(time[0], time[-1], 1000)
+    #input_signal_pol = np.interp(timepol, time, input_signal)
+    #figax[counter][1].plot(to_the_sides(max_turnaround(savgol_filter(np.abs(savgol_filter(input_signal_pol, 100, 4, deriv=2, delta=(timepol[1] - timepol[0]))), 150, 4))/(30000), max=150, power=2))
+    #figax[counter][1].plot(savgol_filter(np.abs(savgol_filter(input_signal_pol, 100, 4, deriv=2, delta=(timepol[1] - timepol[0]), mode='nearest')), 150, 4, mode='constant')/(30000))
 
     #figax[counter][1].grid()
     plt.show()

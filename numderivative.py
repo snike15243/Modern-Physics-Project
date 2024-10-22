@@ -75,15 +75,15 @@ def nthorderjthdegreenumderivative(n,j, x,h):
         a_array = [] #np.zeros((n // 2, 1))
         a2_array = [] # np.zeros((n // 2 + (n % 2), 1))
         for i in range(n//2):
-            a_array.append(derivative_coefficients(n//2 + (n % 2) + i, -i))
+            a_array.append(jthderivative_coefficients(n//2 + (n % 2) + i,j,  -i))
             y[i] = np.matmul(a_array[i].T, x[0:n//2 + (n % 2) + i + 1])/h
-            a2_array.append(derivative_coefficients(n//2  + i, -(n//2) - i ))
+            a2_array.append(jthderivative_coefficients(n//2  + i, j, -(n//2) - i ))
             y[-1-i] = np.matmul(a2_array[i].T, x[-(n//2) - i - 1:])/h
 
         if (n % 2) == 1:
-            a2_array.append(derivative_coefficients(n - 1 , -(n//2)))
+            a2_array.append(jthderivative_coefficients(n - 1 , j, -(n//2), ))
             y[-(n//2)-1] = np.matmul(a2_array[-1].T, x[-n:])/h
     else:
-        y = nthorderfirstdegreenumderivative(len(x), x, h)
+        y = nthorderjthdegreenumderivative(len(x),j, x, h)
 
     return y
