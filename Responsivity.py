@@ -1,7 +1,19 @@
+
+
+
+#TODO: Make seperate window functions for input and output signal, and tweak parameters/totheside function to make it behave well
+
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from cornerdetection import cornerdetection_inputsignal, max_turnaround, to_the_sides, \
+    golay_filter_variable_window_size, cornerdetection_outputsignal, windowsize
+from numderivative import nthorderfirstdegreenumderivative
+from scipy.signal import savgol_filter
+import copy
 
 # Load the data
 data_228 = pd.read_csv('Data/NewFile0.csv')
@@ -18,14 +30,64 @@ data_40 = pd.read_csv('Data/NewFile9.csv')
 data_array = [data_228, data_200, data_184, data_160, data_144, data_120, data_100, data_84, data_64, data_40]
 
 
-
+figax = []
 # Extract the data
-for df in [data_array[0]]:
-    fig, ax = plt.subplots()
-    ax.scatter(df.iloc[1:,0].to_numpy().astype(float), df.iloc[1:,1].to_numpy().astype(float), s=1)
-    ax.scatter(df.iloc[1:,0].to_numpy().astype(float), df.iloc[1:,2].to_numpy().astype(float), s=1)
+for counter, df in enumerate([data_array[0]]):
+
+    time_old = df.iloc[1:,0].to_numpy().astype(float)
+    input_signal = df.iloc[1:,1].to_numpy().astype(float)
+    output_signal = df.iloc[1:,2].to_numpy().astype(float)
+
+    # time = np.unique(time_old)
+    # output_signal = np.zeros_like(time)
+    # input_signal = np.zeros_like(time)
+    # for i, timer in enumerate(time):
+    #     output_signal[i] = np.mean(output_signal_old[time_old == timer])
+    #     input_signal[i] = np.mean(input_signal_old[time_old == timer])
+
+    time2 = copy.deepcopy(time_old)
+    for index, timer in enumerate(np.unique(time_old)):
+        copycount = len(time_old[time_old == timer])
+        time_old[time_old == timer] = np.linspace(timer, timer + np.unique(time_old)[1] - np.unique(time_old)[0], copycount)
+
+    time = time_old
+    input_signal_peaks = cornerdetection_inputsignal(input_signal, time, True)
+    output_signal_peaks = cornerdetection_outputsignal(output_signal, time, True)
+    input_signal_throughs = cornerdetection_inputsignal(input_signal, time, False)
+    output_signal_throughs = cornerdetection_outputsignal(output_signal, time, False)
+
+    switch_points = []
+    output_signal_corners = np.sort(np.concatenate((output_signal_peaks, output_signal_throughs)))
+    output_signal_corners_arg = np.argsort(np.concatenate((output_signal_peaks, output_signal_throughs)))
+    for xi, xf in enumerate(output_signal_corners):
+
+        if np.abs(np.interp(xf, time, output_signal) - np.interp(output_signal_corners[xi-1], time, output_signal)) < 0.2 * np.abs(np.max(output_signal) - np.min(output_signal)):
+
+            switch_points.append(xf)
+    print(output_signal_throughs, output_signal_peaks)
+
+    figax.append(plt.subplots(1,1))
+    figax[counter][1].scatter(time,input_signal , s=1)
+    #figax[counter][1].vlines(x=input_signal_peaks, color='red', ymin=min(input_signal), ymax=max(input_signal))
+    #figax[counter][1].vlines(x=input_signal_throughs, color='green', ymin=min(input_signal), ymax=max(input_signal))
+    figax[counter][1].scatter(time, output_signal, s=1)
+    #figax[counter][1].scatter(time, savgol_filter(input_signal, 100, 4, deriv=0, delta=(time[1]-time[0])), s=1)
+    figax[counter][1].plot(time, golay_filter_variable_window_size(input_signal, 4, time, deriv=0, innerwindow=100, innerwindow2=150, scalefactor=30000, max=150), linewidth=1)
+    figax[counter][1].plot(time, golay_filter_variable_window_size(output_signal, 4, time, deriv=0, innerwindow=10, innerwindow2=100, scalefactor=2000000, max=20), linewidth=1)
+    figax[counter][1].vlines(x=output_signal_peaks, color='red', ymin=min(output_signal), ymax=max(output_signal))
+    figax[counter][1].vlines(x=output_signal_throughs, color='green', ymin=min(output_signal), ymax=max(output_signal))
+    #figax[counter][1].plot(windowsize(input_signal, 4, time, innerwindow=100, innerwindow2=150, scalefactor=30000, max=150))
 
 
-    ax.grid()
+    # figax[counter][1].plot(time, np.array(max_turnaround(
+    #      savgol_filter(abs(savgol_filter(input_signal, 100, 4, deriv=2, delta=(time[95+1] - time[95]))), 150,
+    #                   4)) / (2.5*10**29)))
+
+    #timepol = np.linspace(time[0], time[-1], 1000)
+    #input_signal_pol = np.interp(timepol, time, input_signal)
+    #figax[counter][1].plot(to_the_sides(max_turnaround(savgol_filter(np.abs(savgol_filter(input_signal_pol, 100, 4, deriv=2, delta=(timepol[1] - timepol[0]))), 150, 4))/(30000), max=150, power=2))
+    #figax[counter][1].plot(savgol_filter(np.abs(savgol_filter(input_signal_pol, 100, 4, deriv=2, delta=(timepol[1] - timepol[0]), mode='nearest')), 150, 4, mode='constant')/(30000))
+
+    #figax[counter][1].grid()
     plt.show()
 

@@ -1,58 +1,89 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def fifthordernumderivative(x,i,dx):  #x is an array and i is the index of the derivative
-    return 1/12*(f(x[i-2])-8*f(x[i-1])+8*f(x[i+1])-f(x[i+2]))/dx
+def fourthorderfirstdegreederivative(x,h):
+    """
+    Calculate the first derivative of a signal using a 4th order polynomial
+    """
+    y = np.zeros(len(x))
+    for i in range(2, len(x)-2):
+        y[i] = (1*x[i-2] - 8*x[i-1] + 8*x[i+1] - x[i+2])/(12*h)
 
-def f(x):
-    return x**5
+    if len(x) >= 4:
+        y[0] = (-3*x[0] + 4*x[1] - x[2])/(2*h)
+        y[1] = (-2*x[0] - 3 * x[1] + 6 * x[2] - x[3])/(6*h)
+        y[-1] = (3*x[-1] - 4*x[-2] + x[-3])/(2*h)
+        y[-2] = (2*x[-1] + 3*x[-2] - 6*x[-3] + x[-4])/(6*h)
 
-def fp(x):
-    return 5*x**4
-
-
-A=np.array([[1,1,1,1,1],
-           [-2,-1,0,2,1],
-           [4,1,0,1,4],
-           [-8,-1,0,1,8],
-           [16,1,0,1,16]])
-b=np.array([0,1,0,0,0])
-
-x=np.linalg.solve(A,b)
-
-#for i in range(21+1):
-#    print(i)
-#    print(x*i)
-
-#print(sum(x))
-#for i in range(5):
-#    print(np.transpose(A[i]))
-#
-#    print(np.matmul(A[i],np.transpose(x)))
-
-print(x)
-print(f'1/12*{x*21}')
-
-xlst=np.linspace(0,20,200)
-
-xplst=fp(xlst)
-xptlst=np.array([])
-for i in range(200):
-    #print(i)
-    #is only valid when ui-2 etc exist
-    if i<2 or i>197:
-        xptlst=np.append(xptlst,fp(xlst[i]))
+    elif 2 <= len(x) & len(x) < 4:
+        y[0] = (x[1] - x[0])/(h)
+        y[-1] = (x[-1] - x[-2])/(h)
+        if len(x) == 3:
+            y[1] = (x[2] - x[1])/(h)
     else:
-        xptlst=np.append(xptlst,fifthordernumderivative(xlst,i,(xlst[1]-xlst[0])))
-err=xptlst-xplst
-print(f'error={abs(sum(err)/len(xlst))}')
-plt.figure()
-plt.plot(xlst,xplst,'-g',label='real derivative')
-plt.plot(xlst,xptlst,'-b',label='numerical derivative')
-plt.plot(xlst,err,'-r',label='error')
-plt.legend()
-plt.show()
+        y[0] = 0
+    return y
 
-#print(xlst)
-#print(xplst)
-#print(xptlst)
+def derivative_coefficients(n, n_start):
+    taylor_table = np.zeros((n+1,n+1))
+    for i in range(n+1):
+        for j in range(n+1):
+            taylor_table[i,j] = ((n_start + j)**i)/np.math.factorial(i)
+    rhs_vec = np.zeros((n+1, 1))
+    rhs_vec[1] = 1
+    return np.linalg.solve(taylor_table, rhs_vec)
+
+def jthderivative_coefficients(n, j, n_start):
+    taylor_table = np.zeros((n+1,n+1))
+    for i in range(n+1):
+        for j in range(n+1):
+            taylor_table[i,j] = ((n_start + j)**i)/np.math.factorial(i)
+    rhs_vec = np.zeros((n+1, 1))
+    rhs_vec[j] = 1
+    return np.linalg.solve(taylor_table, rhs_vec)
+def nthorderfirstdegreenumderivative(n,x,h):
+
+    y = np.zeros(len(x))
+    for i in range((n//2), (len(x)-n//2 - (n % 2))):
+        a = derivative_coefficients(n, -n//2)
+        y[i] = np.matmul(a.T, x[i-n//2:i+n//2 + (n % 2) + 1])/h
+
+    if len(x) >= n:
+        a_array = [] #np.zeros((n // 2, 1))
+        a2_array = [] # np.zeros((n // 2 + (n % 2), 1))
+        for i in range(n//2):
+            a_array.append(derivative_coefficients(n//2 + (n % 2) + i, -i))
+            y[i] = np.matmul(a_array[i].T, x[0:n//2 + (n % 2) + i + 1])/h
+            a2_array.append(derivative_coefficients(n//2  + i, -(n//2) - i ))
+            y[-1-i] = np.matmul(a2_array[i].T, x[-(n//2) - i - 1:])/h
+
+        if (n % 2) == 1:
+            a2_array.append(derivative_coefficients(n - 1 , -(n//2)))
+            y[-(n//2)-1] = np.matmul(a2_array[-1].T, x[-n:])/h
+    else:
+        y = nthorderfirstdegreenumderivative(len(x), x, h)
+
+    return y
+def nthorderjthdegreenumderivative(n,j, x,h):
+
+    y = np.zeros(len(x))
+    for i in range((n//2), (len(x)-n//2 - (n % 2))):
+        a = jthderivative_coefficients(n, j, -n//2)
+        y[i] = np.matmul(a.T, x[i-n//2:i+n//2 + (n % 2) + 1])/h
+
+    if len(x) >= n:
+        a_array = [] #np.zeros((n // 2, 1))
+        a2_array = [] # np.zeros((n // 2 + (n % 2), 1))
+        for i in range(n//2):
+            a_array.append(jthderivative_coefficients(n//2 + (n % 2) + i,j,  -i))
+            y[i] = np.matmul(a_array[i].T, x[0:n//2 + (n % 2) + i + 1])/h
+            a2_array.append(jthderivative_coefficients(n//2  + i, j, -(n//2) - i ))
+            y[-1-i] = np.matmul(a2_array[i].T, x[-(n//2) - i - 1:])/h
+
+        if (n % 2) == 1:
+            a2_array.append(jthderivative_coefficients(n - 1 , j, -(n//2), ))
+            y[-(n//2)-1] = np.matmul(a2_array[-1].T, x[-n:])/h
+    else:
+        y = nthorderjthdegreenumderivative(len(x),j, x, h)
+
+    return y
