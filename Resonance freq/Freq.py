@@ -11,7 +11,7 @@ def ff(x,L,h,E,rho):
 Fccond=0
 
 w=40*10**(-6)
-L=200*10**(-6)
+L=100*10**(-6)
 h=0.5*10**(-6)
 rho=3440
 
@@ -33,5 +33,16 @@ print(f'{E/10**9} [Gpa]')
 
 #g=open('Resonance freq\an coeficient.txt')
 dd=np.loadtxt(r'Resonance freq\an coeficient.txt',dtype=float)
+freqs=ff(dd[:,1]*np.pi,L,h,E,rho)
+freql=ff(dd[:,1]*np.pi,L*2,h,E,rho)
+print(f'short cantilever (red) frequency={np.round(freqs/1000,1)} [kHz]')
+print(f'long cantilever (blue) frequency={np.round(freql/1000,1)} [kHz]')
 
-print(f'frequency={np.round(ff(dd[:,1],L,h,E,rho)/1000,1)} [kHz]')
+fig=plt.figure()
+ax1=fig.add_subplot(1,2,1)
+
+ax1.set_xlim(0,450)
+ax1.vlines(freqs[0:2]/1000,0,10,colors='red',linestyles='dashed')
+ax1.vlines(freql[0:2]/1000,0,10,colors='blue',linestyles='dashed')
+
+plt.show()

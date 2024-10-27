@@ -59,7 +59,7 @@ print(f'difference between i+1 and i={delta}')
 print(f(xsol))
 f=open(r'Resonance freq\an coeficient.txt','w')
 for i in range(len(xsol)):
-    f.writelines(f'{i+1}\t'+str(xsol[i]))
+    f.writelines(f'{i+1}\t'+str(xsol[i]/np.pi))
     f.write('\n')
 
 plt.show()
