@@ -180,7 +180,8 @@ for counter, df in enumerate([data_array[0]]):
     figax[counter][1].text(AB_stretch[1]+0.0005, AB_y[1], 'B', fontsize=12)
     number_of_cycles_between_AB = indexB - indexA
     lambdav = 635 * 10 ** -9
-    Responsivity = 0.5*lambdav*number_of_cycles_between_AB/(AB_stretch[1]-AB_stretch[0])
+    Responsivity = 0.5*lambdav*number_of_cycles_between_AB/(AB_y[1]-AB_y[0])
     figax[counter][1].set_title('Responsivity: ' + str(Responsivity) + ' m/V')
+    print(number_of_cycles_between_AB, AB_y[1]-AB_y[0])
     plt.show()
 
