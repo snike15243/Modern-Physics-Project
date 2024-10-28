@@ -2,7 +2,17 @@
 https://www.overleaf.com/9648298511mwhpzgdckrky#c7ed45
 
 # How to run the code:
-1. Clone the repository
+1. Clone the repository on Linux:
+```bash
+sudo apt install git-all
+git clone https://github.com/snike15243/Modern-Physics-Project.git
+```
+or windows:
+```powershell
+winget install --id Git.Git -e --source winget
+git clone https://github.com/snike15243/Modern-Physics-Project.git
+```
+
 2. Install Conda for Linux (if not already installed):
 ```bash
 mkdir -p ~/miniconda3
