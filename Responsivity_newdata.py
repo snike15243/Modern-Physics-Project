@@ -1,10 +1,15 @@
+## Before running: Execute the following:
+## conda env create -f environment.yaml
+## conda activate Modern_Physics_project
+
+
 import pandas as pd
 import numpy as np
 import matplotlib as matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from scipy.signal import find_peaks_cwt, find_peaks
-from itertools import groupby
+
 
 
 
