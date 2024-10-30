@@ -1,0 +1,12 @@
+name: Modern_Physics_project
+channels:
+  - conda-forge
+dependencies:
+  - numpy<2.0.0
+  - matplotlib
+  - scipy
+  - pandas
+  - pip
+  - pywavelets
+
+
