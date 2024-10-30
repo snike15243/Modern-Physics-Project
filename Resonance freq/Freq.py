@@ -32,7 +32,7 @@ def noismij(A,sigmagaus,n,xlst):
             else:
                 xm=random.uniform(sigmagaus*2,450-sigmagaus*2)
                 xmlst.append(xm)
-            sigma=random.uniform(sigmagaus*0.6,sigmagaus*4)
+            sigma=random.uniform(sigmagaus*0.6,sigmagaus*2)
             sigmalst.append(sigma)
             nn=nn+1
     noiselst=[]
@@ -80,11 +80,11 @@ res=10
 
 xlst=np.linspace(0,450,450*res)
 noise=np.random.normal(0,0.012,res*450)
-noisem=noismij(1,8,20,xlst)
-ylsts=ex(xlst,0.01,1.05)+noise+noisem
+noisem=noismij(1,10,35,xlst)
+ylsts=ex(xlst,0.015,1.05)+noise+noisem
 noise=np.random.normal(0,0.012,res*450)
-noisem=noismij(1,8,22,xlst)
-ylstl=ex(xlst,0.01,1)+noise+noisem
+noisem=noismij(1,10,35,xlst)
+ylstl=ex(xlst,0.015,1)+noise+noisem
 sigma=6
 
 
@@ -96,9 +96,9 @@ for i in range(res*450):
         
         if abs(resfreq-f)<=sigma*3:
             if j==0:
-                ylstl[i]=ylstl[i]+2*normal(f,resfreq,sigma/2)
+                ylstl[i]=ylstl[i]+random.uniform(3,5)*normal(f,resfreq,sigma)
             else:
-                ylstl[i]=ylstl[i]+5*normal(f,resfreq,sigma)
+                ylstl[i]=ylstl[i]+random.uniform(3,5)*normal(f,resfreq,sigma)
             #print(f-resfreq)
             #print(resfreq)
             #print(5*normal((f-freql[j]/1000),freql[j]/1000,sigma))
@@ -125,7 +125,7 @@ ax1=fig.add_subplot(1,2,1)
 ax1.set_xlim(0,450)
 ax1.plot(xlst,ylstl,'blue',linewidth=0.5)
 ax1.plot(xlst,ylsts,'red',linewidth=0.5)
-ax1.vlines(freqs[0:2]/1000,0,1,colors='red',linestyles='dashed',label='short')
-ax1.vlines(freql[0:3]/1000,0,1,colors='blue',linestyles='dashed',label='long')
+ax1.vlines(freqs[0:2]/1000,0,1.2,colors='red',linestyles='dashed',label='short')
+ax1.vlines(freql[0:3]/1000,0,1.2,colors='blue',linestyles='dashed',label='long')
 plt.legend()
 plt.show()
