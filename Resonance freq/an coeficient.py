@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def f(x):
     return 1+1/2*(np.e**x+np.e**(-x))*np.cos(x)
 
@@ -13,11 +14,11 @@ def plotting(xn):
     plt.pause(0.01)
     return plot1
 xmax=50
-iter=1000
+iter=10000
 xlst=np.linspace(0,xmax,iter)
 ylst=f(xlst)
 
-xnlst=np.array([2,4,6,8,12,16,17,20,25,28,30,33,35,38,40,42,45,49],float)
+xnlst=np.array([2,6,8,12,16,17,20,25,28,30,33,35,38,40,42,45,49],float)
 fig=plt.figure()
 ax=fig.add_subplot()
 ax.hlines(0,0,xmax,colors='black')
@@ -28,12 +29,12 @@ xsol=np.array([],float)
 for j in range(len(xnlst)):
     xn=xnlst[j]
     plot1=plotting(xnlst[j])
-    print(f'x={xnlst[j]}')
+    #print(f'x={xnlst[j]}')
     for i in range(10):
 
 
         xn=-f(xn)/fp(xn)+xn
-        print(f'x={xn}')
+        #print(f'x={xn}')
         plot1=plotting(xn)
     if xn>=25:
         None
@@ -55,7 +56,14 @@ delta=np.array([],float)
 for i in range(len(xsol)-1):
     delta=np.append(delta,(xsol[i+1]-xsol[i]))
 print(f'difference between i+1 and i={delta}')
+print(f(xsol))
+f=open(r'Resonance freq\an coeficient.txt','w')
+for i in range(len(xsol)):
+    f.writelines(f'{i+1}\t'+str(xsol[i]/np.pi))
+    f.write('\n')
+
 plt.show()
+
 
 
 
