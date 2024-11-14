@@ -1,0 +1,5 @@
+[autorun]
+open = Setup.exe
+insert = Setup.exe
+icon = Setup.exe
+

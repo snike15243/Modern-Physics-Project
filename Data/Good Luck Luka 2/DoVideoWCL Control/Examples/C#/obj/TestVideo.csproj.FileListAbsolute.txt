@@ -1,0 +1,74 @@
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Debug\ResolveAssemblyReference.cache
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Debug\TestVideo.Form1.resources
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Debug\TestVideo.Properties.Resources.resources
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Debug\TestVideo.csproj.GenerateResource.Cache
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\DOVideoCapture.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\TestVideo.exe
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\TestVideo.pdb
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\DOVideoWCL.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\AxInterop.DOPROFILERCCDLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\Interop.DOPROFILERCCDLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\AxInterop.DOPICPROCEXLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\Interop.DOPICPROCEXLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Debug\DOVideoWCL.pdb
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Debug\TestVideo.exe
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Debug\TestVideo.pdb
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Release\ResolveAssemblyReference.cache
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Release\TestVideo.Form1.resources
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Release\TestVideo.Properties.Resources.resources
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Release\TestVideo.csproj.GenerateResource.Cache
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\DOVideoCapture.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\TestVideo.exe
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\TestVideo.pdb
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\DOVideoWCL.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\AxInterop.DOPROFILERCCDLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\Interop.DOPROFILERCCDLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\DOVideoWCL.pdb
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Release\TestVideo.exe
+E:\Saved Projects\DOVideoWCL\TestVideo\obj\Release\TestVideo.pdb
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\Interop.PICTUREPROCESSORLib.dll
+E:\Saved Projects\DOVideoWCL\TestVideo\bin\Release\AxInterop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\TestVideo.exe
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\TestVideo.pdb
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\DOVideoWCL.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\Interop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\AxInterop.DOPROFILERCCDLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\Interop.DOPROFILERCCDLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\AxInterop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Debug\DOVideoWCL.pdb
+D:\My Programs\DOVideoWCL\TestVideo\obj\Debug\ResolveAssemblyReference.cache
+D:\My Programs\DOVideoWCL\TestVideo\obj\Debug\TestVideo.Form1.resources
+D:\My Programs\DOVideoWCL\TestVideo\obj\Debug\TestVideo.Properties.Resources.resources
+D:\My Programs\DOVideoWCL\TestVideo\obj\Debug\TestVideo.csproj.GenerateResource.Cache
+D:\My Programs\DOVideoWCL\TestVideo\obj\Debug\TestVideo.exe
+D:\My Programs\DOVideoWCL\TestVideo\obj\Debug\TestVideo.pdb
+D:\My Programs\DOVideoWCL\TestVideo\obj\Release\TestVideo.exe
+D:\My Programs\DOVideoWCL\TestVideo\obj\Release\TestVideo.pdb
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\TestVideo.exe
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\TestVideo.pdb
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\DOVideoWCL.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\Interop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\AxInterop.DOPROFILERCCDLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\Interop.DOPROFILERCCDLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\AxInterop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL\TestVideo\bin\Release\DOVideoWCL.pdb
+D:\My Programs\DOVideoWCL\TestVideo\obj\Release\ResolveAssemblyReference.cache
+D:\My Programs\DOVideoWCL\TestVideo\obj\Release\TestVideo.Form1.resources
+D:\My Programs\DOVideoWCL\TestVideo\obj\Release\TestVideo.Properties.Resources.resources
+D:\My Programs\DOVideoWCL\TestVideo\obj\Release\TestVideo.csproj.GenerateResource.Cache
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\obj\Release\TestVideo.exe
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\obj\Release\TestVideo.pdb
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\TestVideo.exe
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\TestVideo.pdb
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\DOVideoWCL.dll
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\Interop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\AxInterop.DOPROFILERCCDLib.dll
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\Interop.DOPROFILERCCDLib.dll
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\AxInterop.PICTUREPROCESSORLib.dll
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\bin\Release\DOVideoWCL.pdb
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\obj\Release\ResolveAssemblyReference.cache
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\obj\Release\TestVideo.Form1.resources
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\obj\Release\TestVideo.Properties.Resources.resources
+D:\My Programs\DOVideoWCL + Bucket\TestVideo\obj\Release\TestVideo.csproj.GenerateResource.Cache
+D:\Release Installations\32 & 64 bit Application\Windows 8\BeamOn Series USB rev.1.04\DoVideoWCL Control\Examples\C#\obj\Debug\TestVideo.exe
+D:\Release Installations\32 & 64 bit Application\Windows 8\BeamOn Series USB rev.1.04\DoVideoWCL Control\Examples\C#\obj\Debug\TestVideo.pdb
