@@ -1,9 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+# noinspection PyShadowingNames,PyPep8Naming
 def fE(L,Fc,I):
     return L**3*Fc/(3*I)  #Fc*L**3/(1/12*w*h**3)
 
+
+# noinspection PyShadowingNames,PyPep8Naming
 def ff(x,L,h,E,rho):
     
     return (x**2*h)/(4*np.pi*L**2)*np.sqrt(E/(3*rho))

@@ -3,3 +3,6 @@ matplotlib~=3.7.2
 pandas~=2.2.3
 scipy~=1.10.1
 pywavelets~=1.4.1
+tikzplotlib~=0.10.1
+webcolors~=1.11.1
+typing-extensions~=4.11.0
