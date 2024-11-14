@@ -46,7 +46,7 @@ fig=plt.figure()
 ax1=fig.add_subplot(1,2,1)
 
 ax1.set_xlim(0,450)
-ax1.vlines(freqs[0:2]/1000,0,10,colors='red',linestyles='dashed')
-ax1.vlines(freql[0:2]/1000,0,10,colors='blue',linestyles='dashed')
-
+ax1.vlines(freqs[0:2]/1000,0,10,colors='red',linestyles='dashed',label='short')
+ax1.vlines(freql[0:3]/1000,0,10,colors='blue',linestyles='dashed',label='long')
+plt.legend()
 plt.show()
