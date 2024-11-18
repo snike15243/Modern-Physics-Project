@@ -81,10 +81,10 @@ res=10
 xlst=np.linspace(0,450,450*res)
 noise=np.random.normal(0,0.012,res*450)
 noisem=noismij(1,10,35,xlst)
-ylsts=ex(xlst,0.015,1.05)+noise+noisem
+ylsts=ex(xlst,0.01,0.4)+noise+noisem
 noise=np.random.normal(0,0.012,res*450)
 noisem=noismij(1,10,35,xlst)
-ylstl=ex(xlst,0.015,1)+noise+noisem
+ylstl=ex(xlst,0.01,0.4)+noise+noisem
 sigma=6
 
 
