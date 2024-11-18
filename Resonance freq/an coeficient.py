@@ -8,12 +8,16 @@ def f(x):
 def fp(x):
     return 1/2*(np.e**x-np.e**(-x))*np.cos(x)-1/2*(np.e**x+np.e**(-x))*np.sin(x)
 
+
+# noinspection PyShadowingNames
 def plotting(xn):
     ax.set_ylim(-300,450)
+    # noinspection PyShadowingNames
     plot1=ax.plot(xn,0,'.r')
     plt.pause(0.01)
     return plot1
 xmax=50
+# noinspection PyShadowingBuiltins
 iter=10000
 xlst=np.linspace(0,xmax,iter)
 ylst=f(xlst)
@@ -37,6 +41,7 @@ for j in range(len(xnlst)):
         #print(f'x={xn}')
         plot1=plotting(xn)
     if xn>=25:
+        # noinspection PyStatementEffect
         None
     else:
         xsol=np.append(xsol,xn)

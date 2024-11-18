@@ -1,0 +1,16 @@
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\DOVideoCapture.dll
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\TestVideo.exe
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\TestVideo.pdb
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\DOVideoWCL.dll
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\AxInterop.PICTUREPROCESSORLib.dll
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\AxInterop.DOPROFILERCCDLib.dll
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\Interop.PICTUREPROCESSORLib.dll
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\Interop.DOPROFILERCCDLib.dll
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\bin\Release\DOVideoWCL.pdb
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\ResolveAssemblyReference.cache
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\TestVideo.Form1.resources
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\TestVideo.Properties.Resources.resources
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\GenerateResource-ResGen.read.1.tlog
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\GenerateResource-ResGen.write.1.tlog
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\TestVideo.exe
+D:\Saved Projects\Control\DOVideoWCL\TestVideo\obj\Release\TestVideo.pdb

@@ -7,6 +7,10 @@ dependencies:
   - scipy
   - pandas
   - pip
+  - pip:
+      - tikzplotlib
+      - webcolors~1.11.1
   - pywavelets
+  - typing_extensions
 
 

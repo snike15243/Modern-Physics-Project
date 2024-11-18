@@ -2,29 +2,17 @@
 ## conda env create -f environment.yaml
 ## conda activate Modern_Physics_project
 
+suppress_figures = True
 
-import pandas as pd
-import numpy as np
 import matplotlib as matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-from scipy.signal import find_peaks_cwt, find_peaks
-
-
-
+import numpy as np
+import pandas as pd
+from scipy.signal import find_peaks
 
 matplotlib.use('Qt5Agg')
 
-
-
-from cornerdetection import cornerdetection_inputsignal, max_turnaround, to_the_sides, \
-    golay_filter_variable_window_size, cornerdetection_outputsignal, windowsize, \
-    golay_filter_variable_window_size_input_signal, golay_filter_variable_window_size_output_signal, \
-    windowsize_input_signal, windowsize_output_signal
-from numderivative import nthorderfirstdegreenumderivative, nthorderjthdegreenumderivative
 from scipy.signal import savgol_filter
-import copy
-import pywt
 from scipy.signal import hilbert
 
 figax = []
@@ -34,14 +22,14 @@ responsivities2=[]
 # Load data
 amplitude_names = [42,62,102,122,142,162,182,198,226] #remove 82 because output was saved wrong: inputfile was saved as outputfile
 
-suppress_figures = True
+
 
 for counter, amplitude_name in enumerate(amplitude_names):
     df = pd.read_csv(f'Data_Variable_Amplitude_Input/{amplitude_name}a.xls', delimiter='\t', header=2)
     df2 = pd.read_csv(f'Data_Variable_Amplitude_Input/{amplitude_name}b.xls', delimiter='\t', header=2)
     df_merged = pd.concat([df, df2], axis=1)
     df_time_and_input = df_merged[['Time', 'Voltage']]
-    figax.append(plt.subplots(3,1, sharex=True, figsize=(6,6)))
+    figax.append(plt.subplots(3,1, sharex='all', figsize=(6,6)))
 
     df_numpy = df_time_and_input.to_numpy()[:,[0,2,3]]
     figax[counter][1][0].plot(df_numpy[:,0], df_numpy[:,1])
@@ -77,19 +65,19 @@ for counter, amplitude_name in enumerate(amplitude_names):
 
     hilbert_data = np.angle(hilbert(data))
     phase_over_time = [np.trapz(np.abs(np.gradient(hilbert_data, time))[0:j], time[0:j]) for j, t in enumerate(time)]
-    phase_derivative = savgol_filter(phase_over_time, 100, 3, deriv=1, delta=time[1]-time[0])
+    phase_derivative = savgol_filter(phase_over_time, 100, 3, deriv=1, delta=float(time[1]-time[0]))
 
 
-    Voltage_derivative = savgol_filter(filtered_input, 100, 3, deriv=1, delta=time[1]-time[0])
+    Voltage_derivative = savgol_filter(filtered_input, 100, 3, deriv=1, delta=float(time[1]-time[0]))
 
     lambdav = 635e-9
-    Responsivity_data = (lambdav/(2))*phase_derivative/Voltage_derivative
+    Responsivity_data = (lambdav / 2) * phase_derivative / Voltage_derivative
 
 
     input_peaks = time[find_peaks(filtered_input, distance=1000,prominence=1)[0]]
-    input_throughs = time[find_peaks(-filtered_input, distance=1000, prominence=1)[0]]
-    AB_distance = np.abs(input_peaks[0] - input_throughs[0])
-    AB_range = [input_throughs[0]+0.25*AB_distance, input_peaks[0]-0.25*AB_distance]
+    input_troughs = time[find_peaks(-filtered_input, distance=1000, prominence=1)[0]]
+    AB_distance = np.abs(input_peaks[0] - input_troughs[0])
+    AB_range = [input_troughs[0] + 0.25 * AB_distance, input_peaks[0] - 0.25 * AB_distance]
     AB_indices = np.searchsorted(time, AB_range)
     AB_voltage = np.interp(AB_range, time, filtered_input)
 
@@ -97,13 +85,13 @@ for counter, amplitude_name in enumerate(amplitude_names):
     figax[counter][1][0].text(time[AB_indices[1]]+0.002, AB_voltage[1]-0.2, 'B', fontsize=12, verticalalignment='bottom')
 
 
-    figax[counter][1][2].plot(time, (Responsivity_data))
+    figax[counter][1][2].plot(time, Responsivity_data)
     figax[counter][1][2].set_yscale('log')
 
-    responsivity_derivative = savgol_filter(Responsivity_data, 500, 3, deriv=1, delta=time[1]-time[0])
+    responsivity_derivative = savgol_filter(Responsivity_data, 500, 3, deriv=1, delta=float(time[1]-time[0]))
     #figax[counter][1][2].plot(time, responsivity_derivative)
     # Find intervals where np.abs(responsivity_derivative) < np.max(np.abs(responsivity_derivative))/8
-    true_indices = np.where((np.abs(responsivity_derivative) < np.max(np.abs(responsivity_derivative))/8) & ((time > input_throughs[0]) & (time < input_peaks[0])))[0]
+    true_indices = np.where((np.abs(responsivity_derivative) < np.max(np.abs(responsivity_derivative))/8) & ((time > input_troughs[0]) & (time < input_peaks[0])))[0]
     longest_interval_start = true_indices[0]
     longest_interval_end = true_indices[0]
     current_start = true_indices[0]
@@ -157,7 +145,9 @@ for counter, amplitude_name in enumerate(amplitude_names):
         plt.close('all')
 
 amplitudes_values = np.array(amplitude_names)/10
+
 fig, ax = plt.subplots()
 ax.plot(amplitudes_values, responsivities)
 ax.plot(amplitudes_values, responsivities2)
 plt.show()
+
