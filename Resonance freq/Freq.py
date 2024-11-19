@@ -52,8 +52,8 @@ Fccond=0
 
 w=40*10**(-6)
 L=100*10**(-6)
-h=0.5*10**(-6)
-rho=3440
+h=0.42*10**(-6)   # shifts higher freq to right
+rho=3440    #shifts to left
 
 if Fccond==1:
     #h=0.8*10**(-6)
@@ -61,7 +61,7 @@ if Fccond==1:
     I=1/12*w*h**3
     E=fE(L,Fc,I)
 else:
-    E=170*10**9
+    E=220*10**9  #shifts higher freq to right
 
 
     
@@ -73,8 +73,8 @@ print(f'{E/10**9} [Gpa]')
 
 #g=open('Resonance freq\an coeficient.txt')
 dd=np.loadtxt(r'Resonance freq\an coeficient.txt',dtype=float)
-freqs=ff(dd[:,1]*np.pi,109*10**(-6),h,E,rho)
-freql=ff(dd[:,1]*np.pi,205*10**(-6),h,E,rho)
+freqs=ff(dd[:,1]*np.pi,106*10**(-6),h,E,rho)   #l shifts higher freq to left
+freql=ff(dd[:,1]*np.pi,200*10**(-6),h,E,rho)   #l shifts higher freq to left
 
 f=open(r'Resonance freq\freq.txt','w')
 for i in range(len(freql)):
