@@ -61,7 +61,7 @@ if Fccond==1:
     I=1/12*w*h**3
     E=fE(L,Fc,I)
 else:
-    E=231*10**9
+    E=170*10**9
 
 
     
@@ -73,8 +73,14 @@ print(f'{E/10**9} [Gpa]')
 
 #g=open('Resonance freq\an coeficient.txt')
 dd=np.loadtxt(r'Resonance freq\an coeficient.txt',dtype=float)
-freqs=ff(dd[:,1]*np.pi,L,h,E,rho)
-freql=ff(dd[:,1]*np.pi,L*2,h,E,rho)
+freqs=ff(dd[:,1]*np.pi,109*10**(-6),h,E,rho)
+freql=ff(dd[:,1]*np.pi,205*10**(-6),h,E,rho)
+
+f=open(r'Resonance freq\freq.txt','w')
+for i in range(len(freql)):
+    f.writelines(f'{i+1},'+f'{freql[i]/1000},'+f'{freqs[i]/1000},')
+    f.write('\n')
+
 print(f'short cantilever (red) frequency={np.round(freqs/1000,1)} [kHz]')
 print(f'long cantilever (blue) frequency={np.round(freql/1000,1)} [kHz]')
 
