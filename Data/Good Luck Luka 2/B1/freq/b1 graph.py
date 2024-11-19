@@ -12,8 +12,10 @@ for i in range(5):
     df=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecols=[0,2])
     print(df)
     df=np.array(df,dtype=float)
-    ax.plot(df[:,0]/1000,df[:,1],label=f'{15+i*5}')
-
+    ax.plot(df[:,0]/1000,df[:,1],label=f'{15+i*5} kHz')
+plt.xlabel('Driven frequency (kHz)')
+plt.ylabel('Output of the photo diode (dBm)')
+plt.title('Frequency spectrum for driven frequency')
 plt.legend()
 
 

@@ -3,22 +3,24 @@ import numpy as np
 import pandas as pd
 
 numberarray=['15','20','25','102','122','142','162','182','198','226']
-xminplt=60   #zooming in on peak
-xmaxplt=120
+xminplt=0   #zooming in on peak
+xmaxplt=500
 fig=plt.figure()
 ax=fig.add_subplot()
 ax.set_xlim(xminplt,xmaxplt)
+plt.title('Frequency output for different positions on the long cantilever')
+plt.xlabel('Driven frequency (kHz)')
+plt.ylabel('Output of the photo diode (dBm)')
 
-
-xmin=80  # isolating peak
-xmax=100
+xmin=250  # isolating peak
+xmax=280
 xmean=[]
 for i in range(11):
     name='Data/Good Luck Luka 2/B4/long/b4.'+f'{i*20}'+'.csv'
     df=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecols=[0,2])
     #print(df)
     df=np.array(df,dtype=float)
-    ax.plot(df[:,0]/1000,df[:,1],label='long'+f' {i*20}')
+    ax.plot(df[:,0]/1000,df[:,1],label='long'+f' {i*20} um')
     x=0
     j=0
     yusefull=[]
@@ -33,11 +35,7 @@ for i in range(11):
 
 
 
-plt.legend()
-fig=plt.figure()
-ax1=fig.add_subplot()
-xlst=np.arange(0,220,20)
-ax1.plot(xlst,xmean,'-r')
+
 
 freq=pd.read_csv('Resonance freq/freq.txt',sep=',',index_col=False,header=None,usecols=[1,2])
 print(freq)
@@ -47,9 +45,17 @@ freqs=freq[:,1]
 
 for i in range(len(freql)):
     if freql[i]<xmaxplt and freql[i]>xminplt:
-        ax.vlines(freql[i],-90,-40,colors='blue',linestyles='dashed')
+        ax.vlines(freql[i],-90,-40,colors='blue',linestyles='dashed',label=f'fres {round(freql[i],1)} kHz')
 
+plt.legend()
 
+fig=plt.figure()
+ax1=fig.add_subplot()
+xlst=np.arange(0,220,20)
+ax1.plot(xlst,xmean,'-r')
+plt.title('3th resonance mode')
+plt.xlabel('um')
+plt.ylabel('average dB')
 
 
 

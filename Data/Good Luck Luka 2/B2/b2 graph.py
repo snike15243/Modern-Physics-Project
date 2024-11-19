@@ -12,7 +12,7 @@ name='Data/Good Luck Luka 2/B2/b2.500.csv'
 df=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecols=[0,2])
 #print(df)
 df=np.array(df,dtype=float)
-ax.plot(df[:,0]/1000,df[:,1],'-b',label='long')
+ax.plot(df[:,0]/1000,df[:,1],'-b',label='long (200 um)')
 
 freq=pd.read_csv('Resonance freq/freq.txt',sep=',',index_col=False,header=None,usecols=[1,2])
 print(freq)
@@ -42,8 +42,10 @@ name='Data/Good Luck Luka 2/B2/b2.500.short.csv'
 df1=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecols=[0,2])
 #print(df1)
 df1=np.array(df1,dtype=float)
-ax.plot(df1[:,0]/1000,df1[:,1],'-r',label='short')
-
+ax.plot(df1[:,0]/1000,df1[:,1],'-r',label='short (100 um)')
+plt.xlabel('Driven frequency (kHz)')
+plt.ylabel('Output of the photo diode (dBm)')
+plt.title('Resonance frequencies')
 plt.legend()
 
 

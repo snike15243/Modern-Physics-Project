@@ -4,8 +4,10 @@ import pandas as pd
 
 numberarray=['15','20','25','102','122','142','162','182','198','226']
 fig=plt.figure()
+xmaxplt=350
+xminplt=200
 ax=fig.add_subplot()
-ax.set_xlim(200,350)
+ax.set_xlim(xminplt,xmaxplt)
 
 
 
@@ -16,22 +18,9 @@ freq=np.array(freq,dtype=float)
 freql=freq[:,0]
 freqs=freq[:,1]
 
-for i in range(len(freql)):
-    if freqs[i]<350 and freqs[i]>200:
-        ax.vlines(freqs[i],-90,-40,colors='red',linestyles='dashed')
-
-
-
-
-
-
-
-plt.legend()
-
-
 #ax.set_ylim(-12,12)
-xmin=290
-xmax=310
+xmin=280
+xmax=320
 xmean=[]
 for i in range(11):
     name='Data/Good Luck Luka 2/B4/Short/b4.' f'{i*10}'+'.csv'
@@ -39,7 +28,7 @@ for i in range(11):
     
     df1=np.array(df1,dtype=float)
     #print(df1)
-    ax.plot(df1[:,0]/1000,df1[:,1],label='short'+f' {i*10}')
+    ax.plot(df1[:,0]/1000,df1[:,1],label='short'+f' {i*10} um')
 
     x=0
     j=0
@@ -53,13 +42,22 @@ for i in range(11):
         j=j+1
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
 
+for i in range(len(freql)):
+    if freqs[i]<xmaxplt and freqs[i]>xminplt:
+        ax.vlines(freqs[i],-90,-40,colors='red',linestyles='dashed', label=f'fres {round(freqs[i],1)} kHz')
 
 
 plt.legend()
+plt.title('Frequency output for different positions on the short cantilever')
+plt.xlabel('Driven frequency (kHz)')
+plt.ylabel('Output of the photo diode (dBm)')
 fig=plt.figure()
 ax1=fig.add_subplot()
 xlst=np.arange(0,110,10)
+plt.title('1st resonance mode')
 ax1.plot(xlst,xmean,'-r')
+plt.xlabel('um')
+plt.ylabel('average dB')
 
 
 plt.show()

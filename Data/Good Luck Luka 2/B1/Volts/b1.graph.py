@@ -10,9 +10,13 @@ ax=fig.add_subplot()
 for i in range(5):
     name='Data/Good Luck Luka 2/B1/Volts/b1.15.'+f'{i+3}'+'v.csv'
     df=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecols=[0,2])
-    print(df)
+    #print(df)
     df=np.array(df,dtype=float)
-    ax.plot(df[:,0]/1000,df[:,1],label=f'{i+3}')
+    ax.plot(df[:,0]/1000,df[:,1],label=f'{i+3} V')
+plt.xlabel('Driven frequency (kHz)')
+plt.ylabel('Photo diode output (dBm)')
+plt.title('Frequency spectrum for driven voltage')
+plt.legend()
 
 plt.legend()
 
