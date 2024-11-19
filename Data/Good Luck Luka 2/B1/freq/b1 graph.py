@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-numberarray=['15','20','25','102','122','142','162','182','198','226']
+
 fig=plt.figure()
 ax=fig.add_subplot()
 #ax.set_ylim(-12,12)
