@@ -3,7 +3,7 @@
 ## conda activate Modern_Physics_project
 
 uncertainty_in_lambda = 0.5e-9 # meters
-suppress_figures = False
+suppress_figures = True
 
 import matplotlib as matplotlib
 import matplotlib.pyplot as plt
@@ -16,6 +16,7 @@ matplotlib.use('Qt5Agg')
 
 from scipy.signal import savgol_filter
 from scipy.signal import hilbert
+from scipy import odr
 
 figax = [] # this will contain all figure and axis objects
 responsivities = [] # this will contain all responsivities obtained from taking DeltaX/DeltaV between A and B
@@ -102,9 +103,14 @@ for counter, amplitude_name in enumerate(amplitude_names):
 # Plot relationship between Responsivity and input amplitude
 amplitudes_values = np.array(amplitude_names)/10
 fig, ax = plt.subplots()
-ax.plot(amplitudes_values, responsivities)
-ax.fill_between(amplitudes_values, np.array(responsivities) - np.array(uncertainties), np.array(responsivities) + np.array(uncertainties), alpha=0.5)
+ax.plot(amplitudes_values, responsivities, color='black')
+Average_Responsivity_obj = odr.ODR(odr.RealData(amplitudes_values, responsivities, sy=uncertainties), odr.Model(lambda B, x: B[0]*np.ones(np.shape(x))), beta0=[0.000001]).run() # This will calculate the average responsivity with its uncertainty
+Average_Responsivity = Average_Responsivity_obj.beta[0]
+Average_Responsivity_uncertainty = Average_Responsivity_obj.sd_beta[0]
+ax.text(0.99, 0.8, f"Average Responsivity: {np.format_float_scientific(Average_Responsivity, 1)} $\pm$ {np.format_float_scientific(Average_Responsivity_uncertainty,0)}" + " $mV^{-1}$", fontsize=6, verticalalignment='bottom', horizontalalignment='right', transform=ax.transAxes) # add average responsivity to the plot
+ax.fill_between(amplitudes_values, np.array(responsivities) - np.array(uncertainties), np.array(responsivities) + np.array(uncertainties), alpha=0.3, facecolor='white', hatch='.', edgecolor='black')
 ax.set_xlabel('Amplitude of Input Signal (V)')
 ax.set_ylabel('Responsivity ($mV^{-1}$)')
+ax.legend(['Responsivity', 'Uncertainty'])
 plt.show()
 
