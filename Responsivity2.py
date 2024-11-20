@@ -2,7 +2,7 @@
 ## conda env create -f environment.yaml
 ## conda activate Modern_Physics_project
 
-uncertainty_in_lambda = 0.5e-9 # meters
+uncertainty_in_lambda = 5e-9 # meters
 suppress_figures = True
 
 import matplotlib as matplotlib
@@ -17,6 +17,7 @@ matplotlib.use('Qt5Agg')
 from scipy.signal import savgol_filter
 from scipy.signal import hilbert
 from scipy import odr
+import tikzplotlib
 
 figax = [] # this will contain all figure and axis objects
 responsivities = [] # this will contain all responsivities obtained from taking DeltaX/DeltaV between A and B
@@ -103,14 +104,24 @@ for counter, amplitude_name in enumerate(amplitude_names):
 # Plot relationship between Responsivity and input amplitude
 amplitudes_values = np.array(amplitude_names)/10
 fig, ax = plt.subplots()
-ax.plot(amplitudes_values, responsivities, color='black')
+ax.plot(amplitudes_values, responsivities, color='black', label='Responsivity')
 Average_Responsivity_obj = odr.ODR(odr.RealData(amplitudes_values, responsivities, sy=uncertainties), odr.Model(lambda B, x: B[0]*np.ones(np.shape(x))), beta0=[0.000001]).run() # This will calculate the average responsivity with its uncertainty
 Average_Responsivity = Average_Responsivity_obj.beta[0]
 Average_Responsivity_uncertainty = Average_Responsivity_obj.sd_beta[0]
-ax.text(0.99, 0.8, f"Average Responsivity: {np.format_float_scientific(Average_Responsivity, 1)} $\pm$ {np.format_float_scientific(Average_Responsivity_uncertainty,0)}" + " $mV^{-1}$", fontsize=6, verticalalignment='bottom', horizontalalignment='right', transform=ax.transAxes) # add average responsivity to the plot
-ax.fill_between(amplitudes_values, np.array(responsivities) - np.array(uncertainties), np.array(responsivities) + np.array(uncertainties), alpha=0.3, facecolor='white', hatch='.', edgecolor='black')
-ax.set_xlabel('Amplitude of Input Signal (V)')
-ax.set_ylabel('Responsivity ($mV^{-1}$)')
-ax.legend(['Responsivity', 'Uncertainty'])
-plt.show()
+ax.text(23.5, 1.2e-6, f"Average Responsivity: \qty[exponent-mode = scientific]{{{np.format_float_positional(Average_Responsivity, 2, fractional=False)} \pm {np.format_float_positional(Average_Responsivity_uncertainty,1, fractional=False)}}}{{\meter\per\\volt}}", fontsize=12, verticalalignment='bottom', horizontalalignment='right') # add average responsivity to the plot
+ax.fill_between(amplitudes_values, np.array(responsivities) - np.array(uncertainties), np.array(responsivities) + np.array(uncertainties), alpha=0.3, facecolor='gray', edgecolor='black', label='Uncertainty')
+ax.set_xlabel('Amplitude of Input Signal (\si{\\volt})')
+ax.set_ylabel('Responsivity (\si{\meter\per\\volt})')
+ax.legend()
+def tikzplotlib_fix_ncols(obj):
+    """
+    workaround for matplotlib 3.6 renamed legend's _ncol to _ncols, which breaks tikzplotlib
+    """
+    if hasattr(obj, "_ncols"):
+        obj._ncol = obj._ncols
+    for child in obj.get_children():
+        tikzplotlib_fix_ncols(child)
+tikzplotlib_fix_ncols(ax.legend())
+#plt.show()
+tikzplotlib.save("Responsivity.tex")
 
