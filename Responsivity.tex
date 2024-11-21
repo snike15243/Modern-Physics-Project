@@ -1,0 +1,70 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{gray}{RGB}{128,128,128}
+\definecolor{lightgray204}{RGB}{204,204,204}
+
+\begin{axis}[
+legend cell align={left},
+legend style={fill opacity=0.8, draw opacity=1, text opacity=1, draw=lightgray204},
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={Amplitude of Input Signal (\si{\volt})},
+xmin=3.28, xmax=23.52,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Responsivity (\si{\meter\per\volt})},
+ymin=5.83105877104155e-07, ymax=1.44803497429891e-06,
+ytick style={color=black},
+ytick={5e-07,6e-07,7e-07,8e-07,9e-07,1e-06,1.1e-06,1.2e-06,1.3e-06,1.4e-06,1.5e-06},
+yticklabels={0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5}
+]
+\path [draw=black, fill=gray, opacity=0.3]
+(axis cs:4.2,1.40872001533552e-06)
+--(axis cs:4.2,6.64436751919019e-07)
+--(axis cs:6.2,7.96397608019619e-07)
+--(axis cs:10.2,8.85123316345584e-07)
+--(axis cs:12.2,8.31629089480304e-07)
+--(axis cs:14.2,8.24307651692283e-07)
+--(axis cs:16.2,7.99434693694428e-07)
+--(axis cs:18.2,7.15825920320194e-07)
+--(axis cs:19.8,6.96127212179549e-07)
+--(axis cs:22.6,6.22420836067553e-07)
+--(axis cs:22.6,7.51752817958402e-07)
+--(axis cs:22.6,7.51752817958402e-07)
+--(axis cs:19.8,8.4619046377272e-07)
+--(axis cs:18.2,8.78238874096596e-07)
+--(axis cs:16.2,9.893113483821e-07)
+--(axis cs:14.2,1.03618663976248e-06)
+--(axis cs:12.2,1.08177199987126e-06)
+--(axis cs:10.2,1.19343962632693e-06)
+--(axis cs:6.2,1.30316565130817e-06)
+--(axis cs:4.2,1.40872001533552e-06)
+--cycle;
+\addlegendimage{area legend, draw=black, fill=gray, opacity=0.3}
+\addlegendentry{Uncertainty}
+
+\addplot [semithick, black]
+table {%
+4.2 1.03657838362727e-06
+6.2 1.04978162966389e-06
+10.2 1.03928147133626e-06
+12.2 9.56700544675782e-07
+14.2 9.30247145727383e-07
+16.2 8.94373021038264e-07
+18.2 7.97032397208395e-07
+19.8 7.71158837976135e-07
+22.6 6.87086827012977e-07
+};
+\addlegendentry{Responsivity}
+\draw (axis cs:23.5,1.2e-06) node[
+  scale=0.6,
+  anchor=south east,
+  text=black,
+  rotate=0.0
+]{Average Responsivity: \qty[exponent-mode = scientific]{0.00000082 \pm 0.00000004}{\meter\per\volt}};
+\end{axis}
+
+\end{tikzpicture}
