@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+
 def fE(L,Fc,I):
     return L**3*Fc/(3*I)  #Fc*L**3/(1/12*w*h**3)
 
