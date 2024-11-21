@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
-import matplotlib
 import numpy as np
 import pandas as pd
-import tikzplotlib
-matplotlib.use('Qt5Agg')
+
 numberarray=['42','62','82','102','122','142','162','182','198','226']
 fig=plt.figure()
 ax=fig.add_subplot()
@@ -33,10 +31,17 @@ for i in range(len(numberarray)):
         ax2.plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
         
         fig2.legend()
-ax.legend()
-#plt.show()
+        
 
-tikzplotlib.save('vpp graph.tex')
+
+
+
+
+ax.legend()
+
+plt.show()
+
+
 
 
 
