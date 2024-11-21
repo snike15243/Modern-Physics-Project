@@ -20,7 +20,7 @@ for i in range(21):
         plt.legend()
         plt.xlabel('Time (s)')
         plt.ylabel('Voltage (V)')
-        plt.title('Signal produced by the signal generator')
+        #plt.title('Signal produced by the signal generator')
         
         fig=plt.figure()
         ax=fig.add_subplot()
@@ -34,7 +34,7 @@ for i in range(21):
 
 plt.xlabel('Time (s)')
 plt.ylabel('Voltage (V)')
-plt.title('Signal produced by the signal generator')
+#plt.title('Signal produced by the signal generator')
 plt.legend()
 
 

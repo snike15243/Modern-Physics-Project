@@ -14,6 +14,6 @@ for i in range(6):
     ax.plot(df[:,0],df[:,1],label=f'{round(avg,1)} V')
 plt.xlabel('Time (s)')
 plt.ylabel('Voltage (V)')
-plt.title('Signal generator output for different dc offsets')
+#plt.title('Signal generator output for different dc offsets')
 plt.legend()
 plt.show()

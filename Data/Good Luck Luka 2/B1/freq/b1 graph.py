@@ -15,7 +15,7 @@ for i in range(5):
     ax.plot(df[:,0]/1000,df[:,1],label=f'{15+i*5} kHz')
 plt.xlabel('Driven frequency (kHz)')
 plt.ylabel('Output of the photo diode (dBm)')
-plt.title('Frequency spectrum for driven frequency')
+#plt.title('Frequency spectrum for driven frequency')
 plt.legend()
 
 
