@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
 
 fig=plt.figure()
 ax=fig.add_subplot()
@@ -14,6 +20,9 @@ for i in range(5):
 
 plt.legend()
 
+if LaTeX_plot:
+    tikzplotlib_fix_ncols(plt.legend())
+    tikzplotlib.save("LaTeX_plots/A1_1.tex")
 
 fig=plt.figure()
 ax=fig.add_subplot()
@@ -29,6 +38,10 @@ for i in range(5):
 
 plt.legend()
 
+if LaTeX_plot:
+    tikzplotlib_fix_ncols(plt.legend())
+    tikzplotlib.save("LaTeX_plots/A1_2.tex")
+
 fig=plt.figure()
 ax=fig.add_subplot()
 ax.set_ylim(-12,12)
@@ -40,5 +53,9 @@ for i in range(5):
 
 plt.legend()
 
+if LaTeX_plot:
+    tikzplotlib_fix_ncols(plt.legend())
+    tikzplotlib.save("LaTeX_plots/A1_3.tex")
 
-plt.show()
+if not LaTeX_plot:
+    plt.show()
