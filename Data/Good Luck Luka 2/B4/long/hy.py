@@ -17,6 +17,8 @@ an=anlst[0:4]
 print(an)
 val, cov=curve_fit(ff,an,long,p0=[200*10**(-6),0.5*10**(-6),200*10**9])
 print(val)
+
+
 def ffshort(x,E):
     rho=3440
     L=100*10**(-6)
@@ -26,8 +28,12 @@ def ffshort(x,E):
 val2,cov2=curve_fit(ffshort,an[0:2],short,p0=[val[2]])
 fig=plt.figure()
 ax=fig.add_subplot()
-ax.plot(anlst[0:4],long)
-ax.plot(anlst[0:2],short)
+longlst=ff(anlst[0:4],val[0],val[1],val[2])
+shortlst=ffshort(anlst[0:2],val2[0])
+ax.plot(long,'.b')
+ax.plot(longlst,'-b')
+ax.plot(short,'.r')
+ax.plot(shortlst,'-r')
 print(val2)
 plt.show()
 
