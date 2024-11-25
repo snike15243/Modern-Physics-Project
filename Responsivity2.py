@@ -104,7 +104,7 @@ for counter, amplitude_name in enumerate(amplitude_names):
 # Plot relationship between Responsivity and input amplitude
 amplitudes_values = np.array(amplitude_names)/10
 fig, ax = plt.subplots()
-ax.plot(amplitudes_values, responsivities, color='black', label='Responsivity')
+ax.plot(amplitudes_values, responsivities, color='black', label='Responsivity', marker='o')
 Average_Responsivity_obj = odr.ODR(odr.RealData(amplitudes_values, responsivities, sy=uncertainties), odr.Model(lambda B, x: B[0]*np.ones(np.shape(x))), beta0=[0.000001]).run() # This will calculate the average responsivity with its uncertainty
 Average_Responsivity = Average_Responsivity_obj.beta[0]
 Average_Responsivity_uncertainty = Average_Responsivity_obj.sd_beta[0]
@@ -123,5 +123,5 @@ def tikzplotlib_fix_ncols(obj):
         tikzplotlib_fix_ncols(child)
 tikzplotlib_fix_ncols(ax.legend())
 #plt.show()
-tikzplotlib.save("Responsivity.tex")
+tikzplotlib.save(filepath = "LaTeX_plots/Responsivity.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 
