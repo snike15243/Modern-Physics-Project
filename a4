@@ -1,0 +1,35 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('a4.csv')
+
+data = data.astype({
+    "Second": float,
+    "Volt_CH1": float,
+    "Volt_CH3": float
+})
+
+
+ch1_max = data["Volt_CH1"].max()
+ch1_min = data["Volt_CH1"].min()
+
+ch3_max = data["Volt_CH3"].max()
+ch3_min = data["Volt_CH3"].min()
+
+data["Volt_CH3_Scaled"] = (data["Volt_CH3"] - ch3_min) / (ch3_max - ch3_min) * (ch1_max - ch1_min) + ch1_min
+
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+ax1.plot(data["Second"], data["Volt_CH1"], label="CH1", color="blue")
+ax1.set_xlabel("Time (s)")
+ax1.set_ylabel("Input Voltage (V)", color="blue")
+ax1.tick_params(axis='y', labelcolor="blue")
+
+ax2 = ax1.twinx()
+ax2.plot(data["Second"], data["Volt_CH3"], label="CH3", color="orange")
+ax2.set_ylabel("Output Voltage of Photodiode (V)", color="orange")
+ax2.tick_params(axis='y', labelcolor="orange")
+
+fig.tight_layout()
+plt.show()
+
