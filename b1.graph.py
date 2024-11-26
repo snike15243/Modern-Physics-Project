@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
 
 numberarray=['15','20','25','102','122','142','162','182','198','226']
 fig=plt.figure()
@@ -13,15 +19,22 @@ for i in range(5):
     #print(df)
     df=np.array(df,dtype=float)
     ax.plot(df[:,0]/1000,df[:,1],label=f'{i+3} V')
-plt.xlabel('Driven frequency (kHz)')
-plt.ylabel('Photo diode output (dBm)')
+if LaTeX_plot:
+    plt.xlabel('Driven frequency (\\si{\\kilo\\hertz})')
+    plt.ylabel('Photo diode output (\\si{\\decibel\\meter})')
+else:
+    plt.xlabel('Driven frequency (kHz)')
+    plt.ylabel('Photo diode output (dBm)')
 #plt.title('Frequency spectrum for driven voltage')
 plt.legend()
 
-plt.legend()
+#plt.legend()
 
 
-
-plt.show()
+if LaTeX_plot:
+    tikzplotlib_fix_ncols(plt.legend())
+    tikzplotlib.save("LaTeX_plots/B1.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    plt.show()
 
 
