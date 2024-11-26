@@ -38,8 +38,10 @@ numberarray=['15','20','25','102','122','142','162','182','198','226']
 fig=plt.figure()
 
 fig1=plt.figure()
+fig1.supxlabel('Distance [μm]')
 ax1=fig1.subplots(1,11)
 fig2=plt.figure()
+fig2.supxlabel('Distance [μm]')
 ax2=fig2.subplots(1,11)
 xminplt=[35,280]  #zooming in on peak
 xmaxplt=[80,340]
@@ -93,12 +95,18 @@ for i in range(11):
     ax1[i].set_ylim(-90,-40)
     ax1[i].set_xlabel(f'{i*10}')
     ax1[i].xaxis.set_tick_params(labelbottom=False)
-    ax1[i].yaxis.set_tick_params(labelleft=False)
+    if i!=0:
+        ax1[i].yaxis.set_tick_params(labelleft=False)
+    else:
+        ax1[i].set_ylabel('Power [dBm]')
     ax2[i].plot(xlllst,ylllst)
     ax2[i].set_ylim(-90,-40)
     ax2[i].set_xlabel(f'{i*10}')
     ax2[i].xaxis.set_tick_params(labelbottom=False)
-    ax2[i].yaxis.set_tick_params(labelleft=False)
+    if i!=0:
+        ax2[i].yaxis.set_tick_params(labelleft=False)
+    else:
+        ax2[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
 
 for i in range(len(freql)):

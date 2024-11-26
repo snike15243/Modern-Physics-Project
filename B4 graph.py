@@ -40,10 +40,13 @@ xminplt=[10,75,220]  #zooming in on peak
 xmaxplt=[25,110,285]
 fig=plt.figure()
 fig1=plt.figure()
+fig1.supxlabel('Distance [μm]')
 ax1=fig1.subplots(1,11)
 fig2=plt.figure()
+fig2.supxlabel('Distance [μm]')
 ax2=fig2.subplots(1,11)
 fig3=plt.figure()
+fig3.supxlabel('Distance [μm]')
 ax3=fig3.subplots(1,11)
 
 
@@ -94,17 +97,27 @@ for i in range(11):
     ax1[i].set_ylim(-90,-40)
     ax1[i].set_xlabel(f'{i*20}')
     ax1[i].xaxis.set_tick_params(labelbottom=False)
-    ax1[i].yaxis.set_tick_params(labelleft=False)
+    if i!=0:
+        ax1[i].yaxis.set_tick_params(labelleft=False)
+    else:
+        ax1[i].set_ylabel('Power [dBm]')
     ax2[i].plot(xlllst,ylllst)
     ax2[i].set_xlabel(f'{i*20}')
     ax2[i].set_ylim(-90,-40)
     ax2[i].xaxis.set_tick_params(labelbottom=False)
-    ax2[i].yaxis.set_tick_params(labelleft=False)
+    if i!=0:
+        ax2[i].yaxis.set_tick_params(labelleft=False)
+    else:
+        ax2[i].set_ylabel('Power [dBm]')
     ax3[i].plot(xllllst,yllllst)
     ax3[i].set_xlabel(f'{i*20}')
     ax3[i].set_ylim(-90,-40)
+    
     ax3[i].xaxis.set_tick_params(labelbottom=False)
-    ax3[i].yaxis.set_tick_params(labelleft=False)
+    if i!=0:
+        ax3[i].yaxis.set_tick_params(labelleft=False)
+    else:
+        ax3[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
 
 
