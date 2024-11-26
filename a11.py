@@ -1,12 +1,20 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
 
 names=['70','90','110','130','150','170','200','250','300','400','500','600','700','800','900','1000','1100','1200','1300','1400','1500']
 
 #ax.set_ylim(-12,12)
-fig=plt.figure()
-ax=fig.add_subplot()
+figs = []
+axs = []
+figs.append(plt.figure())
+axs.append(figs[-1].add_subplot())
 oi=1
 for i in range(21):
     name='Data_variable_frequency_input/'+f'{names[i]}'+'a.xls'
@@ -17,26 +25,41 @@ for i in range(21):
     df=np.array(df,dtype=float)
     df2=np.array(df2,dtype=float)
     if i>(21/6*oi):
-        plt.legend()
-        plt.xlabel('Time (s)')
-        plt.ylabel('Voltage (V)')
+        axs[-1].legend()
+        if LaTeX_plot:
+            axs[-1].set_xlabel('Time (\\si{\\second})')
+            axs[-1].set_ylabel('Voltage (\\si{\\volt})')
+        else:
+            axs[-1].set_xlabel('Time (s)')
+            axs[-1].set_ylabel('Voltage (V)')
         #plt.title('Signal produced by the signal generator')
         
-        fig=plt.figure()
-        ax=fig.add_subplot()
+        figs.append(plt.figure())
+        axs.append(figs[-1].add_subplot())
         oi=oi+1
-    ax.plot(df[:,0],df[:,1],label=f'{names[i]} Hz')
+    if LaTeX_plot:
+        axs[-1].plot(df[:,0],df[:,1],label=f'\\qty{{{names[i]}}}{{\\hertz}}')
+    else:
+        axs[-1].plot(df[:,0],df[:,1],label=f'{names[i]} Hz')
     #fig2=plt.figure()
     #ax2=fig2.add_subplot()
     #ax2.plot(df[:,0],df[:,1],label=f'{names[i]}')
     #ax2.plot(df2[:,0],df2[:,1],label=f'{names[i]} b')
-    plt.legend()
+    axs[-1].legend()
 
-plt.xlabel('Time (s)')
-plt.ylabel('Voltage (V)')
+if LaTeX_plot:
+    axs[-1].set_xlabel('Time (\\si{\\second})')
+    axs[-1].set_ylabel('Voltage (\\si{\\volt})')
+else:
+    axs[-1].set_xlabel('Time (s)')
+    axs[-1].set_ylabel('Voltage (V)')
 #plt.title('Signal produced by the signal generator')
-plt.legend()
+axs[-1].legend()
 
 
-
-plt.show()
+if LaTeX_plot:
+    for i in range(len(figs)):
+        tikzplotlib_fix_ncols(axs[i].legend())
+        tikzplotlib.save(figure=figs[i], filepath=f"LaTeX_plots/A11_{i}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    plt.show()

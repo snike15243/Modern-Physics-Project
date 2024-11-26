@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
 
 def cosh(x):
     return (np.e**x+np.e**(-x))/2
@@ -66,7 +72,10 @@ for i in range(11):
     
     df1=np.array(df1,dtype=float)
     #print(df1)
-    ax.plot(df1[:,0]/1000,df1[:,1],label=f' {i*10} um')
+    if LaTeX_plot:
+        ax.plot(df1[:,0]/1000,df1[:,1],label=f' \\qty{{{i*10}}}{{\\micro\\meter}}')
+    else:
+        ax.plot(df1[:,0]/1000,df1[:,1],label=f' {i*10} um')
 
     x=0
     j=0
@@ -118,16 +127,34 @@ yylst=yyylst*(-min(xmean)+max(xmean))/max(yyylst)+min(xmean)
 ax.legend()
 #plt.title('Frequency output for different positions on the short cantilever')
 
-ax.set_xlabel('Driven frequency (kHz)')
-ax.set_ylabel('Output of the photo diode (dBm)')
+
+if LaTeX_plot:
+    ax.set_xlabel('Driven frequency (\\si{\\kilo\\hertz})')
+    ax.set_ylabel('Output of the photo diode (\\si{\\decibel\\meter})')
+    tikzplotlib_fix_ncols(ax.legend())
+    tikzplotlib.save("LaTeX_plots/B4_1.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
+    tikzplotlib.save("LaTeX_plots/B4_2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig1, axis_width='10', axis_height='10')
+    tikzplotlib.save("LaTeX_plots/B4_3.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig2, axis_width='10', axis_height='10')
+
+else:
+    ax.set_xlabel('Driven frequency (kHz)')
+    ax.set_ylabel('Output of the photo diode (dBm)')
+    plt.show()
+
 fig=plt.figure()
 ax1=fig.add_subplot()
 xlst=np.arange(0,110,10)
 plt.title('2nd resonance mode')
 ax1.plot(xlst,xmean,'-r')
-ax1.plot(xxlst,yylst,linestyle='dashed')
-plt.xlabel('um')
-plt.ylabel('average dB')
+ax1.plot(xxlst,yylst,linestyle='-')
+if LaTeX_plot:
+    plt.xlabel('\\si{\\micro\\meter}')
+    plt.ylabel('average \\si{\\decibel}')
+else:
+    plt.xlabel('um')
+    plt.ylabel('average dB')
 
-
-plt.show()
+if LaTeX_plot:
+    tikzplotlib.save("LaTeX_plots/B4_4.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
+else:
+    plt.show()

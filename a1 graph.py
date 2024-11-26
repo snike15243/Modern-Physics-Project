@@ -8,7 +8,7 @@ from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 matplotlib.use('Qt5Agg')
 import tikzplotlib
 
-LaTeX_plot = True
+LaTeX_plot = False
 
 numberarray=['42','62','82','102','122','142','162','182','198','226']
 fig=plt.figure()
@@ -24,7 +24,9 @@ else:
     plt.ylabel('Voltage (V)')
 
 ax.set_ylim(-12,12)
-fig2_exists = False
+fig2_exists = 0
+figs = []
+axs = []
 for i in range(len(numberarray)):
     name='Data_Variable_Amplitude_Input/'+f'{numberarray[i]}'+'a.xls'
     name2='Data_Variable_Amplitude_Input/'+f'{numberarray[i]}'+'b.xls'
@@ -35,8 +37,8 @@ for i in range(len(numberarray)):
     ax.plot(df[:,0],df[:,1],label=f'{float(numberarray[i])/10} V')
     
     if int(numberarray[i])/10 in [10.2,22.6]:
-        fig2=plt.figure()
-        ax2=fig2.add_subplot()
+        figs.append(plt.figure())
+        axs.append(figs[-1].add_subplot())
         if LaTeX_plot:
             plt.xlabel('Time (\\si{\\second})')
         else:
@@ -46,12 +48,12 @@ for i in range(len(numberarray)):
             plt.ylabel('Voltage (\\si{\\volt})')
         else:
             plt.ylabel('Voltage (V)')
-        ax2.set_ylim(-12,12)
-        ax2.plot(df[:,0],df[:,1],label='Input voltage')
-        ax2.plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
+        axs[-1].set_ylim(-12,12)
+        axs[-1].plot(df[:,0],df[:,1],label='Input voltage')
+        axs[-1].plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
         
-        ax2.legend()
-        fig2_exists = True
+        axs[-1].legend()
+        fig2_exists += 1
 
 
 
@@ -64,9 +66,14 @@ if not LaTeX_plot:
 else:
     tikzplotlib_fix_ncols(ax.legend())
     tikzplotlib.save(figure = fig, filepath = "LaTeX_plots/A1_1.2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
-    if fig2_exists:
-        tikzplotlib_fix_ncols(ax2.legend())
-        tikzplotlib.save(figure = fig2, filepath = "LaTeX_plots/A1_2.2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+    if fig2_exists == 1:
+        tikzplotlib_fix_ncols(axs[0].legend())
+        tikzplotlib.save(figure = figs[0], filepath = "LaTeX_plots/A1_2.2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+    elif fig2_exists == 2:
+        tikzplotlib_fix_ncols(axs[0].legend())
+        tikzplotlib.save(figure = figs[0], filepath = "LaTeX_plots/A1_2.2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+        tikzplotlib_fix_ncols(axs[1].legend())
+        tikzplotlib.save(figure = figs[1], filepath = "LaTeX_plots/A1_2.3.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 
 
 
