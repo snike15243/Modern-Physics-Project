@@ -73,11 +73,11 @@ print(f'{E/10**9} [Gpa]')
 
 
 #g=open('Resonance freq\an coeficient.txt')
-dd=np.loadtxt(r'Resonance freq\an coeficient.txt',dtype=float)
+dd=np.loadtxt(r'C:\Users\lhuir\OneDrive\Documenten\GitHub\Modern-Physics-Project\Resonance freq\an coeficient.txt',dtype=float)
 freqs=ff(dd[:,1]*np.pi,100*10**(-6),h,E,rho)   #l shifts higher freq to left
 freql=ff(dd[:,1]*np.pi,200*10**(-6),h,E,rho)   #l shifts higher freq to left
 
-f=open(r'Resonance freq\freq.txt','w')
+f=open(r'C:\Users\lhuir\OneDrive\Documenten\GitHub\Modern-Physics-Project\Resonance freq\freq.txt','w')
 for i in range(len(freql)):
     f.writelines(f'{i+1},'+f'{freql[i]/1000},'+f'{freqs[i]/1000},')
     f.write('\n')

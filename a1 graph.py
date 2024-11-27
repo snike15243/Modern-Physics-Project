@@ -3,10 +3,10 @@ import numpy as np
 import pandas as pd
 import matplotlib
 
-#from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
-#matplotlib.use('Qt5Agg')
-#import tikzplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
 
 LaTeX_plot = False
 
@@ -48,11 +48,11 @@ for i in range(len(numberarray)):
             plt.ylabel('Voltage (\\si{\\volt})')
         else:
             plt.ylabel('Voltage (V)')
-        ax2.set_ylim(-12,12)
-        ax2.plot(df[:,0],df[:,1],label='Input voltage')
-        ax2.plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
+        axs[-1].set_ylim(-12,12)
+        axs[-1].plot(df[:,0],df[:,1],label='Input voltage')
+        axs[-1].plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
         
-        ax2.legend()
+        axs[-1].legend()
         fig2_exists = True
 
 

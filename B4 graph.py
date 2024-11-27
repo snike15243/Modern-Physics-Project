@@ -2,6 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
+import matplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
+
+
 def cosh(x):
     return (np.e**x+np.e**(-x))/2
 
@@ -40,13 +48,22 @@ xminplt=[10,75,220]  #zooming in on peak
 xmaxplt=[25,110,285]
 fig=plt.figure()
 fig1=plt.figure()
-fig1.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig1.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig1.supxlabel('Distance [um]')
 ax1=fig1.subplots(1,11)
 fig2=plt.figure()
-fig2.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig2.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig1.supxlabel('Distance [um]')
 ax2=fig2.subplots(1,11)
 fig3=plt.figure()
-fig3.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig1.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig3.supxlabel('Distance [um]')
 ax3=fig3.subplots(1,11)
 
 
@@ -100,7 +117,10 @@ for i in range(11):
     if i!=0:
         ax1[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax1[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax1[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax1[i].set_ylabel('Power [dBm]')
     ax2[i].plot(xlllst,ylllst)
     ax2[i].set_xlabel(f'{i*20}')
     ax2[i].set_ylim(-90,-40)
@@ -108,7 +128,10 @@ for i in range(11):
     if i!=0:
         ax2[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax2[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax2[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax2[i].set_ylabel('Power [dBm]')
     ax3[i].plot(xllllst,yllllst)
     ax3[i].set_xlabel(f'{i*20}')
     ax3[i].set_ylim(-90,-40)
@@ -117,8 +140,12 @@ for i in range(11):
     if i!=0:
         ax3[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax3[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax3[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax3[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
+
 
 
 
@@ -157,17 +184,37 @@ yylst=yyylst*(-min(xmean)+max(xmean))/max(yyylst)+min(xmean)
 
 
 ax.legend()
-ax.set_xlabel('Driven frequency (kHz)')
-ax.set_ylabel('Output of the photo diode (dBm)')
+if LaTeX_plot:
+    ax.set_xlabel('Driven frequency [\\si{\\kilo\\hertz}]')
+    ax.set_ylabel('Power [\\si{\\decibel\\meter}]')
+    tikzplotlib_fix_ncols(ax.legend())
+    tikzplotlib.save("LaTeX_plots/B4_1b.tex", figure=fig1, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
+    tikzplotlib.save("LaTeX_plots/B4_2b.tex", figure=fig2, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
+    tikzplotlib.save("LaTeX_plots/B4_3b.tex", figure=fig3, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
+    tikzplotlib.save("LaTeX_plots/B4_0b.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    ax.set_xlabel('Driven frequency (kHz)')
+    ax.set_ylabel('Output of the photo diode (dBm)')
+    plt.show()
+
+
+
+
 fig=plt.figure()
 ax1=fig.add_subplot()
 xlst=np.arange(0,220,20)
 ax1.plot(xlst,xmean,'-r')
-ax1.plot(xxlst,yylst,linestyle='dashed')
+ax1.plot(xxlst,yylst,linestyle='-')
 plt.title('2nd resonance mode')
-plt.xlabel('um')
-plt.ylabel('average dB')
-
+if LaTeX_plot:
+    plt.xlabel('\\si{\\micro\\meter}')
+    plt.ylabel('Power (averaged over frequency) [\\si{\\decibel}]')
+    tikzplotlib_fix_ncols(ax1.legend())
+    tikzplotlib.save("LaTeX_plots/B4_4b.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    plt.xlabel('um')
+    plt.ylabel('average dB')
+    plt.show()
 
 
 
@@ -180,4 +227,4 @@ plt.ylabel('average dB')
 
 
 
-plt.show()
+#plt.show()
