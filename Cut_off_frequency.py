@@ -68,6 +68,7 @@ for i, frequency in enumerate(frequency_array[:]):
         plt.show()
     else:
         plt.close('all')
+
     Deltax = Delta_phi * 635e-9/2
     Deltax_array.append(Deltax)
     Input_Signal_Amplitude = np.abs(input_voltage[inputpeaks[0][0]] - input_voltage[inputtroughs[0][0]])
