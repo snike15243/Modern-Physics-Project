@@ -6,7 +6,7 @@ matplotlib.use('Qt5Agg')
 import tikzplotlib
 from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
-LaTeX_plot = True
+LaTeX_plot = False
 
 def cosh(x):
     return (np.e**x+np.e**(-x))/2
@@ -44,10 +44,16 @@ numberarray=['15','20','25','102','122','142','162','182','198','226']
 fig=plt.figure()
 
 fig1=plt.figure()
-fig1.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig1.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig1.supxlabel('Distance [um]')
 ax1=fig1.subplots(1,11)
 fig2=plt.figure()
-fig2.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig2.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig2.supxlabel('Distance [um]')
 ax2=fig2.subplots(1,11)
 xminplt=[35,280]  #zooming in on peak
 xmaxplt=[80,340]
@@ -107,7 +113,10 @@ for i in range(11):
     if i!=0:
         ax1[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax1[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax1[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax1[i].set_ylabel('Power [dBm]')
     ax2[i].plot(xlllst,ylllst)
     ax2[i].set_ylim(-90,-40)
     ax2[i].set_xlabel(f'{i*10}')
@@ -115,7 +124,10 @@ for i in range(11):
     if i!=0:
         ax2[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax2[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax2[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax2[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
 
 for i in range(len(freql)):
