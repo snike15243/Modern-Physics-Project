@@ -14,6 +14,7 @@ frequency_array = ['10', '20', '30', '40', '50', '100', '150', '200', '250', '30
 Deltax_array = []
 predicted_Deltax = []
 amplifier_power = []
+amplifier_gain = []
 
 def Responsivity_function(x):
     return (-1.048e-9) *x**2  + (7.475e-9) * x + 1.038e-6
@@ -34,9 +35,10 @@ for i, frequency in enumerate(frequency_array[:]):
     time = np.linspace(time_array[0], time_array[-1], 10000)
     input_voltage = np.interp(time, time_array, input_voltage_array)
     output_voltage = np.interp(time, time_array, output_voltage_array)
-    amp_voltage = np.interp(time, time_array, amp_array)
+    amp_voltage = 20* np.interp(time, time_array, amp_array)
     fig, ax = plt.subplots(3,1, sharex='all', figsize=(6,6))
     ax[0].plot(time, input_voltage)
+    #ax[0].plot(time, amp_voltage)
     ax[1].plot(time, output_voltage)
     filtered_input = savgol_filter(input_voltage, 1000, 3)
     ax[0].plot(time, filtered_input)
@@ -73,6 +75,9 @@ for i, frequency in enumerate(frequency_array[:]):
     Deltax_array.append(Deltax)
     Input_Signal_Amplitude = np.abs(input_voltage[inputpeaks[0][0]] - input_voltage[inputtroughs[0][0]])
     predicted_Deltax.append(Responsivity_function(Input_Signal_Amplitude)*Input_Signal_Amplitude)
+    Vpp_input_signal = np.abs(input_voltage[inputpeaks[0][0]] - input_voltage[inputtroughs[0][0]])
+    Vpp_amp_signal = np.abs(amp_voltage[inputpeaks[0][0]] - amp_voltage[inputtroughs[0][0]])
+    amplifier_gain.append(np.abs(Vpp_amp_signal/Vpp_input_signal))
 
 
 
@@ -94,7 +99,9 @@ popt, pcov = curve_fit(bode_fit, freqs, (Deltax_array/Deltax_array[0]), p0=[100,
 ax.plot(np.logspace(np.log10(np.min(freqs)), np.log10(np.max(freqs)), 100), 20*np.log10(bode_fit(np.logspace(np.log10(np.min(freqs)), np.log10(np.max(freqs)), 100), *popt))-20*np.log10(bode_fit([np.min(freqs)], *popt)))
 ax.plot(freqs, Deltax_decibel-np.ones(np.shape(Deltax_decibel))*20*np.log10(bode_fit([np.min(freqs)], *popt)))
 amplifier_power_decibel = 10*np.log10(amplifier_power/amplifier_power[0])
+amplifier_gain_decibel = 20 * np.log10(amplifier_gain)
 ax.plot(freqs, amplifier_power_decibel)
+ax.plot(freqs, amplifier_gain_decibel, color='grey')
 ax.set_xscale('log')
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('Piezo Displacement (dBm)')
