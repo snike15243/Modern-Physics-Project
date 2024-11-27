@@ -6,7 +6,7 @@ matplotlib.use('Qt5Agg')
 import tikzplotlib
 from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
-LaTeX_plot = False
+LaTeX_plot = True
 
 def cosh(x):
     return (np.e**x+np.e**(-x))/2
@@ -141,8 +141,8 @@ if LaTeX_plot:
     ax.set_ylabel('Output of the photo diode (\\si{\\decibel\\meter})')
     tikzplotlib_fix_ncols(ax.legend())
     tikzplotlib.save("LaTeX_plots/B4_1.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
-    tikzplotlib.save("LaTeX_plots/B4_2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig1, axis_width='10', axis_height='10')
-    tikzplotlib.save("LaTeX_plots/B4_3.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig2, axis_width='10', axis_height='10')
+    tikzplotlib.save("LaTeX_plots/B4_2.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig1, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
+    tikzplotlib.save("LaTeX_plots/B4_3.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig2, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
 
 else:
     ax.set_xlabel('Driven frequency (kHz)')
