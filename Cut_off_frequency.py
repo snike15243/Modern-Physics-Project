@@ -4,6 +4,10 @@ from scipy.signal import hilbert, savgol_filter, find_peaks
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import matplotlib
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
 
 
 suppress_figures = True
@@ -86,7 +90,7 @@ Deltax_decibel = 20*np.log10(Deltax_array/Deltax_array[0])
 predicted_Deltax_decibel = 20*np.log10(predicted_Deltax/predicted_Deltax[0])
 freqs = [float(freq) for freq in frequency_array]
 
-ax.plot(freqs, predicted_Deltax_decibel)
+ax.plot(freqs, predicted_Deltax_decibel, label='Predicted Displacement Using Responsivity')
 def bode_fit(x, a, b):
     returnarray = []
     for xl in x:
@@ -95,14 +99,52 @@ def bode_fit(x, a, b):
         else:
             returnarray.append((xl/a)**b)
     return returnarray
-popt, pcov = curve_fit(bode_fit, freqs, (Deltax_array/Deltax_array[0]), p0=[100, -0.5])
-ax.plot(np.logspace(np.log10(np.min(freqs)), np.log10(np.max(freqs)), 100), 20*np.log10(bode_fit(np.logspace(np.log10(np.min(freqs)), np.log10(np.max(freqs)), 100), *popt))-20*np.log10(bode_fit([np.min(freqs)], *popt)))
-ax.plot(freqs, Deltax_decibel-np.ones(np.shape(Deltax_decibel))*20*np.log10(bode_fit([np.min(freqs)], *popt)))
+def bode_fit2(x, a, b):
+    return 1/np.sqrt(1+(x/a)**b)
+input_space = np.logspace(np.log10(np.min(freqs)), np.log10(np.max(freqs)), 100)
+popt, pcov = curve_fit(bode_fit2, freqs, (Deltax_array/Deltax_array[0]), p0=[100, 0.5])
+ax.plot(input_space, 20*np.log10(bode_fit2(input_space, *popt))-20*np.log10(bode_fit2([np.min(freqs)], *popt)), label='Interferometer Output Signal (Fit)')
+ax.plot(freqs, Deltax_decibel-np.ones(np.shape(Deltax_decibel))*20*np.log10(bode_fit2([np.min(freqs)], *popt)), label='Interferometer Output Signal (Measured)')
 amplifier_power_decibel = 10*np.log10(amplifier_power/amplifier_power[0])
 amplifier_gain_decibel = 20 * np.log10(amplifier_gain)
-ax.plot(freqs, amplifier_power_decibel)
-ax.plot(freqs, amplifier_gain_decibel, color='grey')
+for i, v in enumerate(20*np.log10(bode_fit2(input_space, *popt))-20*np.log10(bode_fit2([np.min(freqs)], *popt))):
+    if v < 20*np.log10(0.5):
+        cut_off_frequency = input_space[i-1]
+        break
+ax.vlines(cut_off_frequency, -30, 20*np.log10(0.5), color='black', linestyle='dashed')
+ax.hlines(20*np.log10(0.5), np.min(freqs), cut_off_frequency, color='black', linestyle='dashed')
+#ax.plot(freqs, amplifier_power_decibel)
+
+gain_interp = np.interp(x=input_space, xp=freqs, fp=amplifier_gain_decibel)
+for i, v in enumerate(gain_interp):
+    if v-amplifier_gain_decibel[0] < 20*np.log10(0.5):
+        cut_off_frequency_amplifier = input_space[i]
+        break
+ax.vlines(cut_off_frequency_amplifier, -30, 20*np.log10(0.5)+amplifier_gain_decibel[0], color='black', linestyle='dashed')
+ax.hlines(amplifier_gain_decibel[0]+20*np.log10(0.5), np.min(freqs), cut_off_frequency_amplifier, color='black', linestyle='dashed')
+ax.plot(freqs, amplifier_gain_decibel, color='grey', label='Amplifier Gain from amplifier Output Signal (Measured)')
+ax.scatter([cut_off_frequency, cut_off_frequency_amplifier], [20*np.log10(0.5), 20*np.log10(0.5)+amplifier_gain_decibel[0]], color='black')
+if LaTeX_plot:
+    ax.text(cut_off_frequency+100, 20*np.log10(0.5), f'$f_{{co}}= \\qty{{{cut_off_frequency:.0f}}}{{\hertz}}$', verticalalignment='bottom', horizontalalignment='left', fontsize=8)
+    ax.text(cut_off_frequency_amplifier, 20*np.log10(0.5)+amplifier_gain_decibel[0]+0.5, f'$f_{{co}}= \\qty{{{cut_off_frequency_amplifier:.0f}}}{{\hertz}}$', verticalalignment='bottom', horizontalalignment='left', fontsize=8)
+else:
+    ax.text(cut_off_frequency+100, 20*np.log10(0.5), f'$f_{{co}}=$: {cut_off_frequency:.0f} Hz', verticalalignment='bottom', horizontalalignment='left', fontsize=8)
+    ax.text(cut_off_frequency_amplifier, 20*np.log10(0.5)+amplifier_gain_decibel[0]+0.5, f'$f_{{co}}=$: {cut_off_frequency_amplifier:.0f} Hz', verticalalignment='bottom', horizontalalignment='left', fontsize=8)
 ax.set_xscale('log')
-plt.xlabel('Frequency (Hz)')
-plt.ylabel('Piezo Displacement (dBm)')
-plt.show()
+ax.set_xlim(10,5000)
+ax.set_ylim(-30,30)
+ax.legend(bbox_to_anchor=(0.5,0.01), loc='lower center')
+if LaTeX_plot:
+    ax.set_xlabel('Frequency [\\si{\\hertz}]')
+    ax.set_ylabel('Piezo Displacement [\\si{\\decibel\meter}] \n Amplifier Gain [\\si{\\decibel}]')
+else:
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Piezo Displacement (dBm)\nAmplifier Gain (dB)')
+
+plt.yticks(list(plt.yticks()[0]) + [20*np.log10(0.5), amplifier_gain_decibel[0]])
+
+if LaTeX_plot:
+    tikzplotlib_fix_ncols(ax.legend())
+    tikzplotlib.save('LaTeX_plots/Cut_off_frequency.tex', extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    plt.show()
