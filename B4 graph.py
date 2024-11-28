@@ -188,10 +188,10 @@ if LaTeX_plot:
     ax.set_xlabel('Driven frequency [\\si{\\kilo\\hertz}]')
     ax.set_ylabel('Power [\\si{\\decibel\\meter}]')
     tikzplotlib_fix_ncols(ax.legend())
-    tikzplotlib.save("LaTeX_plots/B4_1b.tex", figure=fig1, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
-    tikzplotlib.save("LaTeX_plots/B4_2b.tex", figure=fig2, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
-    tikzplotlib.save("LaTeX_plots/B4_3b.tex", figure=fig3, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
-    tikzplotlib.save("LaTeX_plots/B4_0b.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+    tikzplotlib.save(f"LaTeX_plots/B4_1b_{resmode}.tex", figure=fig1, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
+    tikzplotlib.save(f"LaTeX_plots/B4_2b_{resmode}.tex", figure=fig2, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
+    tikzplotlib.save(f"LaTeX_plots/B4_3b_{resmode}.tex", figure=fig3, extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'} )
+    tikzplotlib.save(f"LaTeX_plots/B4_0b_{resmode}.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 else:
     ax.set_xlabel('Driven frequency (kHz)')
     ax.set_ylabel('Output of the photo diode (dBm)')
@@ -205,12 +205,19 @@ ax1=fig.add_subplot()
 xlst=np.arange(0,220,20)
 ax1.plot(xlst,xmean,'-r')
 ax1.plot(xxlst,yylst,linestyle='-')
-plt.title('2nd resonance mode')
+if resmode == 0:
+    plt.title('1st resonance mode')
+elif resmode == 1:
+    plt.title('2nd resonance mode')
+elif resmode == 2:
+    plt.title('3rd resonance mode')
+else:
+    plt.title(f'{resmode+1}th resonance mode')
 if LaTeX_plot:
     plt.xlabel('\\si{\\micro\\meter}')
     plt.ylabel('Power (averaged over frequency) [\\si{\\decibel}]')
     tikzplotlib_fix_ncols(ax1.legend())
-    tikzplotlib.save("LaTeX_plots/B4_4b.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+    tikzplotlib.save(f"LaTeX_plots/B4_4b_{resmode}.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 else:
     plt.xlabel('um')
     plt.ylabel('average dB')

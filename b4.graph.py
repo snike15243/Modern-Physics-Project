@@ -152,9 +152,9 @@ if LaTeX_plot:
     ax.set_xlabel('Driven frequency (\\si{\\kilo\\hertz})')
     ax.set_ylabel('Output of the photo diode (\\si{\\decibel\\meter})')
     tikzplotlib_fix_ncols(ax.legend())
-    tikzplotlib.save("LaTeX_plots/B4_1.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
-    tikzplotlib.save("LaTeX_plots/B4_2.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig1, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
-    tikzplotlib.save("LaTeX_plots/B4_3.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig2, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
+    tikzplotlib.save(f"LaTeX_plots/B4_1_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
+    tikzplotlib.save(f"LaTeX_plots/B4_2_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig1, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
+    tikzplotlib.save(f"LaTeX_plots/B4_3_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig2, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
 
 else:
     ax.set_xlabel('Driven frequency (kHz)')
@@ -164,7 +164,14 @@ else:
 fig=plt.figure()
 ax1=fig.add_subplot()
 xlst=np.arange(0,110,10)
-plt.title('2nd resonance mode')
+if resmode==0:
+    plt.title('1st resonance mode')
+elif resmode==1:
+    plt.title('2nd resonance mode')
+elif resmode==2:
+    plt.title('3rd resonance mode')
+else:
+    plt.title(f'{resmode+1}th resonance mode')
 ax1.plot(xlst,xmean,'-r')
 ax1.plot(xxlst,yylst,linestyle='-')
 if LaTeX_plot:
@@ -175,6 +182,6 @@ else:
     plt.ylabel('average dB')
 
 if LaTeX_plot:
-    tikzplotlib.save("LaTeX_plots/B4_4.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
+    tikzplotlib.save(f"LaTeX_plots/B4_4_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
 else:
     plt.show()
