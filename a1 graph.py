@@ -14,6 +14,9 @@ numberarray=['42','62','82','102','122','142','162','182','198','226']
 fig=plt.figure()
 ax=fig.add_subplot()
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     plt.xlabel('Time (\\si{\\second})')
 else:
     plt.xlabel('Time (s)')
@@ -48,11 +51,11 @@ for i in range(len(numberarray)):
             plt.ylabel('Voltage (\\si{\\volt})')
         else:
             plt.ylabel('Voltage (V)')
-        ax2.set_ylim(-12,12)
-        ax2.plot(df[:,0],df[:,1],label='Input voltage')
-        ax2.plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
+        axs[-1].set_ylim(-12,12)
+        axs[-1].plot(df[:,0],df[:,1],label='Input voltage')
+        axs[-1].plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30,label='Output of photo diode')
         
-        ax2.legend()
+        axs[-1].legend()
         fig2_exists = True
 
 

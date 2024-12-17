@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
 
 LaTeX_plot = False
 
@@ -19,6 +17,9 @@ df=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecol
 #print(df)
 df=np.array(df,dtype=float)
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     ax.plot(df[:,0]/1000,df[:,1],'-b',label='long (\\qty{200}{\\micro\\meter})')
 else:
     ax.plot(df[:,0]/1000,df[:,1],'-b',label='long (200 um)')

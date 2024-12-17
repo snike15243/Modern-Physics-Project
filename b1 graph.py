@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
 
 LaTeX_plot = False
 
@@ -19,6 +17,9 @@ for i in range(5):
     print(df)
     df=np.array(df,dtype=float)
     if LaTeX_plot:
+        matplotlib.use('Qt5Agg')
+        import tikzplotlib
+        from Tikzplotlib_fixer import tikzplotlib_fix_ncols
         ax.plot(df[:,0]/1000,df[:,1],label=f'\\qty{{{15+i*5}}}{{\\kilo\\hertz}}')
     else:
         ax.plot(df[:,0]/1000,df[:,1],label=f'{15+i*5} kHz')

@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
 
 LaTeX_plot = False
 
@@ -21,6 +19,9 @@ for i in range(5):
 plt.legend()
 
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     tikzplotlib_fix_ncols(plt.legend())
     tikzplotlib.save("LaTeX_plots/A1_1.tex")
 

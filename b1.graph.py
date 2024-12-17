@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
 
 LaTeX_plot = False
 
@@ -20,6 +18,9 @@ for i in range(5):
     df=np.array(df,dtype=float)
     ax.plot(df[:,0]/1000,df[:,1],label=f'{i+3} V')
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     plt.xlabel('Driven frequency (\\si{\\kilo\\hertz})')
     plt.ylabel('Photo diode output (\\si{\\decibel\\meter})')
 else:
