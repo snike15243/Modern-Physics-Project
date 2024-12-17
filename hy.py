@@ -87,6 +87,8 @@ xlst=np.linspace(anl[0],11,1000)
 ylst=fff(xlst,val[0])
 fig=plt.figure()
 ax=fig.add_subplot()
+plt.xlabel('an')
+plt.ylabel('fres/L**2')
 ax.plot(xlst,ylst,':b')
 ax.plot(anl,freql,'.r')
 

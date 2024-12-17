@@ -3,10 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib
 
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
-matplotlib.use('Qt5Agg')
-import tikzplotlib
 
 LaTeX_plot = False
 
