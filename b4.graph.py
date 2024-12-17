@@ -44,10 +44,16 @@ numberarray=['15','20','25','102','122','142','162','182','198','226']
 fig=plt.figure()
 
 fig1=plt.figure()
-fig1.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig1.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig1.supxlabel('Distance [um]')
 ax1=fig1.subplots(1,11)
 fig2=plt.figure()
-fig2.supxlabel('Distance [μm]')
+if LaTeX_plot:
+    fig2.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
+else:
+    fig2.supxlabel('Distance [um]')
 ax2=fig2.subplots(1,11)
 xminplt=[35,280]  #zooming in on peak
 xmaxplt=[80,340]
@@ -107,7 +113,10 @@ for i in range(11):
     if i!=0:
         ax1[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax1[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax1[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax1[i].set_ylabel('Power [dBm]')
     ax2[i].plot(xlllst,ylllst)
     ax2[i].set_ylim(-90,-40)
     ax2[i].set_xlabel(f'{i*10}')
@@ -115,7 +124,10 @@ for i in range(11):
     if i!=0:
         ax2[i].yaxis.set_tick_params(labelleft=False)
     else:
-        ax2[i].set_ylabel('Power [dBm]')
+        if LaTeX_plot:
+            ax2[i].set_ylabel('Power [\\si{\\decibel\\meter}]')
+        else:
+            ax2[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
 
 for i in range(len(freql)):
@@ -140,9 +152,9 @@ if LaTeX_plot:
     ax.set_xlabel('Driven frequency (\\si{\\kilo\\hertz})')
     ax.set_ylabel('Output of the photo diode (\\si{\\decibel\\meter})')
     tikzplotlib_fix_ncols(ax.legend())
-    tikzplotlib.save("LaTeX_plots/B4_1.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
-    tikzplotlib.save("LaTeX_plots/B4_2.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig1, axis_width='10', axis_height='10')
-    tikzplotlib.save("LaTeX_plots/B4_3.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig2, axis_width='10', axis_height='10')
+    tikzplotlib.save(f"LaTeX_plots/B4_1_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
+    tikzplotlib.save(f"LaTeX_plots/B4_2_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig1, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
+    tikzplotlib.save(f"LaTeX_plots/B4_3_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis group left', 'trim axis group right'], figure=fig2, extra_groupstyle_parameters={'horizontal sep=0.18cm}, unit vector ratio=0.07, {': '0.18cm'})
 
 else:
     ax.set_xlabel('Driven frequency (kHz)')
@@ -152,7 +164,14 @@ else:
 fig=plt.figure()
 ax1=fig.add_subplot()
 xlst=np.arange(0,110,10)
-plt.title('2nd resonance mode')
+if resmode==0:
+    plt.title('1st resonance mode')
+elif resmode==1:
+    plt.title('2nd resonance mode')
+elif resmode==2:
+    plt.title('3rd resonance mode')
+else:
+    plt.title(f'{resmode+1}th resonance mode')
 ax1.plot(xlst,xmean,'-r')
 ax1.plot(xxlst,yylst,linestyle='-')
 if LaTeX_plot:
@@ -163,6 +182,6 @@ else:
     plt.ylabel('average dB')
 
 if LaTeX_plot:
-    tikzplotlib.save("LaTeX_plots/B4_4.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
+    tikzplotlib.save(f"LaTeX_plots/B4_4_{resmode}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'], figure=fig)
 else:
     plt.show()
