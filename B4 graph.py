@@ -3,9 +3,7 @@ import numpy as np
 import pandas as pd
 import copy
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
 
 LaTeX_plot = False
 
@@ -49,6 +47,9 @@ xmaxplt=[25,110,285]
 fig=plt.figure()
 fig1=plt.figure()
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     fig1.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
 else:
     fig1.supxlabel('Distance [um]')
@@ -70,10 +71,11 @@ ax3=fig3.subplots(1,11)
 ax=fig.add_subplot()
 ax.set_xlim(0,500)
 
-resmode=1
+resmode=2
 xmin=xminplt[resmode]  # isolating peak
 xmax=xmaxplt[resmode]
 xmean=[]
+xstd=[]
 for i in range(11):
     
     name='Data/Good Luck Luka 2/B4/long/b4.'+f'{i*20}'+'.csv'
@@ -145,6 +147,7 @@ for i in range(11):
         else:
             ax3[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
+    xstd.append(np.std(np.array(yusefull,dtype=float)))
 
 
 
@@ -203,8 +206,9 @@ else:
 fig=plt.figure()
 ax1=fig.add_subplot()
 xlst=np.arange(0,220,20)
-ax1.plot(xlst,xmean,'-r')
-ax1.plot(xxlst,yylst,linestyle='-')
+eb=ax1.errorbar(xlst,xmean, yerr=xstd, color='red', capsize=5)
+eb[-1][0].set_linestyle((0,(5,10)))
+ax1.plot(xxlst,yylst,linestyle=':')
 if resmode == 0:
     plt.title('1st resonance mode')
 elif resmode == 1:
