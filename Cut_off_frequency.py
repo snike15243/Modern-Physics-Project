@@ -66,22 +66,30 @@ for i, frequency in enumerate(frequency_array[:]):
 
     # Calculate the phase over time, calculate Signal Power of the Amplfied Signal
     if inputpeaks[0][0] > inputtroughs[0][0]:
-        hilbert_data = np.angle(hilbert(output_voltage[inputtroughs[0][0]:inputpeaks[0][0]]))
+        to_be_hilbertized = filtered_output[inputtroughs[0][0]:inputpeaks[0][0]]
+        to_be_hilbertized = to_be_hilbertized - np.min(to_be_hilbertized)
+        to_be_hilbertized = to_be_hilbertized/np.max(to_be_hilbertized)
+        hilbert_data = np.angle(hilbert(2*to_be_hilbertized - 1))
+        hilbert_data2 = np.unwrap(hilbert_data, discont=np.pi)
         hilbert_time = time[inputtroughs[0][0]:inputpeaks[0][0]]
         amplifier_power.append(np.trapz(amp_voltage[inputtroughs[0][0]:inputpeaks[0][0]], time[inputtroughs[0][0]:inputpeaks[0][0]]))
     else:
-        hilbert_data = np.angle(hilbert(output_voltage[inputpeaks[0][0]:inputtroughs[0][0]]))
+        to_be_hilbertized = filtered_output[inputpeaks[0][0]:inputtroughs[0][0]]
+        to_be_hilbertized = to_be_hilbertized - np.min(to_be_hilbertized)
+        to_be_hilbertized = to_be_hilbertized / np.max(to_be_hilbertized)
+        hilbert_data = np.angle(hilbert(2*to_be_hilbertized - 1))
+        hilbert_data2 = np.unwrap(hilbert_data, discont=np.pi)
         hilbert_time = time[inputpeaks[0][0]:inputtroughs[0][0]]
         amplifier_power.append(np.trapz(amp_voltage[inputpeaks[0][0]:inputtroughs[0][0]], time[inputpeaks[0][0]:inputtroughs[0][0]]))
-    phase_over_time = [np.trapz(np.abs(np.gradient(hilbert_data, hilbert_time))[0:j], hilbert_time[0:j]) for j, t in enumerate(hilbert_time)]
-    ax[2].plot(hilbert_time, phase_over_time)
-    cycle_counter = [np.argmin(np.abs(phase_over_time-m*np.ones(np.shape(phase_over_time)))) for m in range(1,10)]
+    phase_over_time = np.array([np.trapz(np.abs(np.gradient(hilbert_data2, hilbert_time))[0:j], hilbert_time[0:j]) for j, t in enumerate(hilbert_time)])
+    ax[2].plot(hilbert_time, phase_over_time/(2*np.pi))
+    cycle_counter = [np.argmin(np.abs(phase_over_time/(2*np.pi)-m*np.ones(np.shape(phase_over_time)))) for m in range(1,30)]
     ax[2].vlines(hilbert_time[cycle_counter], 0, 3, color='red')
 
     # Calculate the displacement
     Delta_phi = phase_over_time[-1] - phase_over_time[0]
-    Deltax = Delta_phi * 635e-9 / 2
-    ax[0].set_title(f'Cycles between peaks:{Delta_phi}')
+    Deltax = Delta_phi * 635e-9 / (2 * 2 * np.pi)
+    ax[0].set_title(f'Cycles between peaks:{Delta_phi/(2*np.pi)}')
     Deltax_array.append(Deltax)
 
     # Show the plots
@@ -128,6 +136,7 @@ amplifier_power_decibel = 10*np.log10(amplifier_power/amplifier_power[0])
 amplifier_gain_decibel = 20 * np.log10(amplifier_gain)
 
 # Calculate the cut-off frequency for the interferometer data
+cut_off_frequency = 0
 for i, v in enumerate(20*np.log10(bode_fit2(input_space, *popt))-20*np.log10(bode_fit2([np.min(freqs)], *popt))):
     if v < 20*np.log10(0.5):
         cut_off_frequency = input_space[i-1]
@@ -136,6 +145,7 @@ ax.vlines(cut_off_frequency, -30, 20*np.log10(0.5), color='black', linestyle='da
 ax.hlines(20*np.log10(0.5), np.min(freqs), cut_off_frequency, color='black', linestyle='dashed')
 
 # Calculate the cut-off frequency for the amplifier data
+cut_off_frequency_amplifier = 0
 gain_interp = np.interp(x=input_space, xp=freqs, fp=amplifier_gain_decibel)
 for i, v in enumerate(gain_interp):
     if v-amplifier_gain_decibel[0] < 20*np.log10(0.5):
