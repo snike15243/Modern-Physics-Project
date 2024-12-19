@@ -3,10 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib
 
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
-matplotlib.use('Qt5Agg')
-import tikzplotlib
 
 LaTeX_plot = False
 
@@ -14,6 +11,9 @@ numberarray=['42','62','82','102','122','142','162','182','198','226']
 fig=plt.figure()
 ax=fig.add_subplot()
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     plt.xlabel('Time (\\si{\\second})')
 else:
     plt.xlabel('Time (s)')

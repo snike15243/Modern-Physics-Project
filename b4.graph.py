@@ -2,9 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
 LaTeX_plot = False
 
@@ -45,6 +42,9 @@ fig=plt.figure()
 
 fig1=plt.figure()
 if LaTeX_plot:
+    matplotlib.use('Qt5Agg')
+    import tikzplotlib
+    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
     fig1.supxlabel('Distance [\\si{\\micro\\meter}]', y=-0.05)
 else:
     fig1.supxlabel('Distance [um]')
@@ -74,6 +74,7 @@ resmode=1
 xmin=xminplt[resmode]  # isolating peak
 xmax=xmaxplt[resmode]
 xmean=[]
+xstd=[]
 for i in range(11):
     name='Data/Good Luck Luka 2/B4/Short/b4.' f'{i*10}'+'.csv'
     df1=pd.read_csv(name,sep=',',skiprows=range(2),index_col=False,header=None,usecols=[0,2])
@@ -129,6 +130,7 @@ for i in range(11):
         else:
             ax2[i].set_ylabel('Power [dBm]')
     xmean.append(np.mean(np.array(yusefull,dtype=float)))
+    xstd.append(np.std(np.array(yusefull,dtype=float)))
 
 for i in range(len(freql)):
     if freqs[i]<500 and freqs[i]>0:
@@ -172,7 +174,8 @@ elif resmode==2:
     plt.title('3rd resonance mode')
 else:
     plt.title(f'{resmode+1}th resonance mode')
-ax1.plot(xlst,xmean,'-r')
+eb=ax1.errorbar(xlst,xmean, yerr=xstd, color='red', capsize=5)
+eb[-1][0].set_linestyle((0,(5,10)))
 ax1.plot(xxlst,yylst,linestyle='-')
 if LaTeX_plot:
     plt.xlabel('\\si{\\micro\\meter}')

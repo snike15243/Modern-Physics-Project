@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
 
 LaTeX_plot = False
 
@@ -13,6 +11,7 @@ names=['70','90','110','130','150','170','200','250','300','400','500','600','70
 #ax.set_ylim(-12,12)
 figs = []
 axs = []
+ax1=[]
 figs.append(plt.figure())
 axs.append(figs[-1].add_subplot())
 oi=1
@@ -24,9 +23,21 @@ for i in range(21):
     df2=pd.read_csv(name2,sep='\t',skiprows=range(9),index_col=False,header=None,usecols=[1,2])
     df=np.array(df,dtype=float)
     df2=np.array(df2,dtype=float)
+
+    if i==0 or i==6:
+        fig1=plt.figure()
+        ax1.append(fig1.add_subplot())
+        ax1[-1].set_ylim(-1.6,0.7)
+        ax1[-1].plot(df[:,0],df[:,1])
+        ax1[-1].plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*2.5)
+        plt.title(f'{names[i]} Hz')
+
     if i>(21/6*oi):
         axs[-1].legend()
         if LaTeX_plot:
+            matplotlib.use('Qt5Agg')
+            import tikzplotlib
+            from Tikzplotlib_fixer import tikzplotlib_fix_ncols
             axs[-1].set_xlabel('Time (\\si{\\second})')
             axs[-1].set_ylabel('Voltage (\\si{\\volt})')
         else:
