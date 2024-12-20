@@ -3,7 +3,7 @@
 ## conda activate Modern_Physics_project
 
 uncertainty_in_lambda = 5e-9 # meters
-suppress_figures = True
+suppress_figures = False
 
 import matplotlib as matplotlib
 import matplotlib.pyplot as plt
@@ -55,8 +55,11 @@ for counter, amplitude_name in enumerate(amplitude_names):
     figax[counter][1][1].plot(time, data) # plot output signal
 
     # Calculate phase of the cyclic signal at every point in time, as well as its derivative
-    hilbert_data = np.angle(hilbert(data))
-    phase_over_time = [np.trapz(np.abs(np.gradient(hilbert_data, time))[0:j], time[0:j]) for j, t in enumerate(time)]
+    to_be_hilbertized = data - np.min(data)
+    to_be_hilbertized = to_be_hilbertized/np.max(to_be_hilbertized)
+    hilbert_data = np.angle(hilbert(2*to_be_hilbertized-1))
+    hilbert_data2 = np.unwrap(hilbert_data, discont=np.pi)
+    phase_over_time = [np.trapz(np.abs(np.gradient(hilbert_data2, time))[0:j], time[0:j]) for j, t in enumerate(time)]
     uncertainty_in_phase = np.pi/2 # it is assumed that the phase is uncertain by at most pi/2, as even with the naked eye such a phase difference can be detected
 
     # Calculate derivative of the input signal
@@ -77,12 +80,12 @@ for counter, amplitude_name in enumerate(amplitude_names):
     figax[counter][1][0].text(time[AB_indices[1]] + 0.002, AB_voltage[1] - 0.2, 'B', fontsize=12, verticalalignment='bottom')
 
     # Calculate Responsivity between A and B
-    Responsivity_global = (lambdav/2)*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])
-    uncertainty_from_lambda2 = (uncertainty_in_lambda/2)*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]]) # calculus approach for uncertainty
-    uncertainty_from_phase_A = (lambdav/2)*(uncertainty_in_phase)/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])
-    uncertainty_from_phase_B = (lambdav/2)*(-uncertainty_in_phase)/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])
-    uncertainty_from_voltage_A = -(lambdav/2)*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])**2*Voltage_uncertainty
-    uncertainty_from_voltage_B = (lambdav/2)*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])**2*Voltage_uncertainty
+    Responsivity_global = (lambdav/(2*2*np.pi))*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])
+    uncertainty_from_lambda2 = (uncertainty_in_lambda/(2*2*np.pi))*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]]) # calculus approach for uncertainty
+    uncertainty_from_phase_A = (lambdav/(2*2*np.pi))*(uncertainty_in_phase)/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])
+    uncertainty_from_phase_B = (lambdav/(2*2*np.pi))*(-uncertainty_in_phase)/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])
+    uncertainty_from_voltage_A = -(lambdav/(2*2*np.pi))*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])**2*Voltage_uncertainty
+    uncertainty_from_voltage_B = (lambdav/(2*2*np.pi))*(phase_over_time[AB_indices[1]]-phase_over_time[AB_indices[0]])/(filtered_input[AB_indices[1]]-filtered_input[AB_indices[0]])**2*Voltage_uncertainty
     uncertainty_global = np.sqrt(uncertainty_from_lambda2**2 + uncertainty_from_phase_A**2 + uncertainty_from_phase_B**2 + uncertainty_from_voltage_A**2 + uncertainty_from_voltage_B**2) # total uncertainty
     print("Global Resonsivity: ", Responsivity_global)
     responsivities.append(Responsivity_global)
@@ -122,6 +125,6 @@ def tikzplotlib_fix_ncols(obj):
     for child in obj.get_children():
         tikzplotlib_fix_ncols(child)
 tikzplotlib_fix_ncols(ax.legend())
-#plt.show()
-tikzplotlib.save(filepath = "LaTeX_plots/Responsivity.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+plt.show()
+#tikzplotlib.save(filepath = "LaTeX_plots/Responsivity.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 

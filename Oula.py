@@ -2,8 +2,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import io
+import tikzplotlib
+import numpy as np
+import matplotlib
+matplotlib.use('Qt5Agg')
 
-file_path = os.path.expanduser("/Users/oula/Downloads/a4.csv")
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
+
+file_path = os.path.expanduser("a4.csv")
 
 with open(file_path, 'r') as file:
     file_contents = file.readlines()
@@ -46,4 +54,8 @@ ax2.set_ylabel("Output voltage of photodiode (V)")
 ax2.tick_params(axis='y')
 
 fig.tight_layout()
-plt.show()
+if LaTeX_plot:
+    #tikzplotlib_fix_ncols(plt.legend())
+    tikzplotlib.save(filepath="LaTeX_plots/A4_1.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    plt.show()
