@@ -4,9 +4,9 @@ import pandas as pd
 import scipy.odr as odr
 from scipy.optimize import curve_fit
 import matplotlib
-matplotlib.use('Qt5Agg')
-import tikzplotlib
-from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+#matplotlib.use('Qt5Agg')
+#import tikzplotlib
+#from Tikzplotlib_fixer import tikzplotlib_fix_ncols
 
 LaTeX_plot = False
 
@@ -99,8 +99,8 @@ if LaTeX_plot:
 else:
     plt.xlabel('an')
     plt.ylabel('fres/L**2')
-ax.plot(xlst,ylst,'-b', label='Change this text3')
-ax.plot(anl,freql,'-r', label='Change this text2')
+ax.plot(xlst,ylst,'-b', label='curve fit')
+ax.plot(anl,freql,'-r', label='practical info')
 
 
 
@@ -119,8 +119,8 @@ myoutput=myodr.run()
 myoutput.pprint()
 
 yllst=f(myoutput.beta,xlst)
-ax.plot(xlst,yllst,'-g', label='Change this text1')
-
+ax.plot(xlst,yllst,'-g', label='ODR')
+plt.legend()
 if LaTeX_plot:
     ax.legend()
     tikzplotlib_fix_ncols(ax.legend())
