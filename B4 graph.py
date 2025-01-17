@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import copy
 import matplotlib
+matplotlib.use('Qt5Agg')
+
 
 
 LaTeX_plot = False
@@ -71,7 +73,7 @@ ax3=fig3.subplots(1,11)
 ax=fig.add_subplot()
 ax.set_xlim(0,500)
 
-resmode=2
+resmode=1
 xmin=xminplt[resmode]  # isolating peak
 xmax=xmaxplt[resmode]
 xmean=[]
@@ -208,7 +210,7 @@ ax1=fig.add_subplot()
 xlst=np.arange(0,220,20)
 eb=ax1.errorbar(xlst,xmean, yerr=xstd, color='red', capsize=5)
 eb[-1][0].set_linestyle((0,(5,10)))
-ax1.plot(xxlst,yylst,linestyle=':')
+ax1.plot(xxlst,yylst,linestyle='-')
 if resmode == 0:
     plt.title('1st resonance mode')
 elif resmode == 1:
@@ -220,6 +222,7 @@ else:
 if LaTeX_plot:
     plt.xlabel('\\si{\\micro\\meter}')
     plt.ylabel('Power (averaged over frequency) [\\si{\\decibel}]')
+    ax1.legend()
     tikzplotlib_fix_ncols(ax1.legend())
     tikzplotlib.save(f"LaTeX_plots/B4_4b_{resmode}.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 else:

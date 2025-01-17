@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+matplotlib.use('Qt5Agg')
 
 
 LaTeX_plot = False
@@ -13,8 +16,12 @@ freqlst = ['10', '20', '30', '40', '50', '100', '150', '200', '250', '300', '350
 figs = []
 axs = []
 ax1=[]
+fig_location = []
 figs.append(plt.figure())
+
+
 axs.append(figs[-1].add_subplot())
+fig_location.append(1)
 oi=1
 #C:\Users\Marni\OneDrive\Documenten\GitHub\Modern-Physics-Project\cut-off freq\NewFile0.csv
 #C:\Users\Marni\OneDrive\Documenten\GitHub\Modern-Physics-Project\Porno\10.csv
@@ -33,14 +40,20 @@ for i in range(25):
     df2[:,1]=df1[:,2]
     print(df2)
     print('peop')
-
+    lenaxs = 0
     if freqlst[i]=='10' or freqlst[i]=='200':
-        fig1=plt.figure()
-        ax1.append(fig1.add_subplot())
+        figs.append(plt.figure())
+        ax1.append(figs[-1].add_subplot())
+        fig_location.append(0)
+        #axs.append(figs[-1].add_subplot())
+        lenaxs += 1
         #ax1[-1].set_ylim(-1.6,0.7)
         ax1[-1].plot(df[:,0],df[:,1])
         ax1[-1].plot(df2[:,0],(df2[:,1]-np.mean(df2[:,1]))*30)
-        plt.title(f'{freqlst[i]} Hz')
+        if LaTeX_plot:
+            plt.title(f'\\qty{{{freqlst[i]}}}{{\\hertz}}')
+        else:
+            plt.title(f'{freqlst[i]} Hz')
 
     if i>(25/6*oi):
         axs[-1].legend()
@@ -57,6 +70,7 @@ for i in range(25):
         
         figs.append(plt.figure())
         axs.append(figs[-1].add_subplot())
+        fig_location.append(1)
         oi=oi+1
     if LaTeX_plot:
         axs[-1].plot(df[:,0],df[:,1],label=f'\\qty{{{freqlst[i]}}}{{\\hertz}}')
@@ -79,8 +93,15 @@ axs[-1].legend()
 
 
 if LaTeX_plot:
+    count1 = 0
+    count2 = 0
     for i in range(len(figs)):
-        tikzplotlib_fix_ncols(axs[i].legend())
+        if fig_location[i] == 0:
+            tikzplotlib_fix_ncols(ax1[count1].legend())
+            count1 += 1
+        else:
+            tikzplotlib_fix_ncols(axs[count2].legend())
+            count2 += 1
         tikzplotlib.save(figure=figs[i], filepath=f"LaTeX_plots/A11_{i}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 else:
     plt.show()

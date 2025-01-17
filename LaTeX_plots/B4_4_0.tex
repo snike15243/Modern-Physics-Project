@@ -17,22 +17,80 @@ xmin=-5, xmax=105,
 xtick style={color=black},
 y grid style={darkgray176},
 ylabel={average \si{\decibel}},
-ymin=-71.6831727272727, ymax=-61.0413727272727,
+ymin=-76.7137982896193, ymax=-50.601562414498,
 ytick style={color=black}
 ]
-\addplot [semithick, red]
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:0,-73.6091708968622)
+--(axis cs:0,-67.3548291031378);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:10,-74.4430953666532)
+--(axis cs:10,-66.5819955424377);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:20,-75.5268784771138)
+--(axis cs:20,-66.8720306137953);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:30,-75.483075371379)
+--(axis cs:30,-66.2663791740755);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:40,-75.1560033484002)
+--(axis cs:40,-62.5189057425088);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:50,-74.6554287278903)
+--(axis cs:50,-62.888207635746);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:60,-73.798410708432)
+--(axis cs:60,-58.6964983824771);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:70,-72.904254858874)
+--(axis cs:70,-54.3364724138533);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:80,-72.7877090162907)
+--(axis cs:80,-54.375563710982);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:90,-71.8486955411609)
+--(axis cs:90,-53.9985771861119);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:100,-71.2616995911783)
+--(axis cs:100,-51.7884822270035);
+
+\addplot [semithick, red, mark=-, mark size=5, mark options={solid}, only marks]
 table {%
-0 -70.482
-10 -70.5125454545455
-20 -71.1994545454545
-30 -70.8747272727273
-40 -68.8374545454545
-50 -68.7718181818182
-60 -66.2474545454545
-70 -63.6203636363636
-80 -63.5816363636364
-90 -62.9236363636364
-100 -61.5250909090909
+0 -73.6091708968622
+10 -74.4430953666532
+20 -75.5268784771138
+30 -75.483075371379
+40 -75.1560033484002
+50 -74.6554287278903
+60 -73.798410708432
+70 -72.904254858874
+80 -72.7877090162907
+90 -71.8486955411609
+100 -71.2616995911783
+};
+\addplot [semithick, red, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+0 -67.3548291031378
+10 -66.5819955424377
+20 -66.8720306137953
+30 -66.2663791740755
+40 -62.5189057425088
+50 -62.888207635746
+60 -58.6964983824771
+70 -54.3364724138533
+80 -54.375563710982
+90 -53.9985771861119
+100 -51.7884822270035
 };
 \addplot [semithick, steelblue31119180]
 table {%
@@ -135,6 +193,20 @@ table {%
 96.969696969697 -61.9286265786882
 97.979797979798 -61.7941166413813
 98.989898989899 -61.6596041362087
+100 -61.5250909090909
+};
+\addplot [semithick, red]
+table {%
+0 -70.482
+10 -70.5125454545455
+20 -71.1994545454545
+30 -70.8747272727273
+40 -68.8374545454545
+50 -68.7718181818182
+60 -66.2474545454545
+70 -63.6203636363636
+80 -63.5816363636364
+90 -62.9236363636364
 100 -61.5250909090909
 };
 \end{axis}

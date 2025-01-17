@@ -3,7 +3,7 @@
 ## conda activate Modern_Physics_project
 
 uncertainty_in_lambda = 5e-9 # meters
-suppress_figures = False
+suppress_figures = True
 
 import matplotlib as matplotlib
 import matplotlib.pyplot as plt
@@ -125,6 +125,6 @@ def tikzplotlib_fix_ncols(obj):
     for child in obj.get_children():
         tikzplotlib_fix_ncols(child)
 tikzplotlib_fix_ncols(ax.legend())
-plt.show()
-#tikzplotlib.save(filepath = "LaTeX_plots/Responsivity.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+#plt.show()
+tikzplotlib.save(filepath = "LaTeX_plots/Responsivity.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
 

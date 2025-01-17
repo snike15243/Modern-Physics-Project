@@ -3,6 +3,12 @@ import numpy as np
 import pandas as pd
 import scipy.odr as odr
 from scipy.optimize import curve_fit
+import matplotlib
+matplotlib.use('Qt5Agg')
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
+LaTeX_plot = False
 
 
 #def ff(x,E):
@@ -87,10 +93,14 @@ xlst=np.linspace(anl[0],11,1000)
 ylst=fff(xlst,val[0])
 fig=plt.figure()
 ax=fig.add_subplot()
-plt.xlabel('an')
-plt.ylabel('fres/L**2')
-ax.plot(xlst,ylst,':b')
-ax.plot(anl,freql,'.r')
+if LaTeX_plot:
+    plt.xlabel('a_n')
+    plt.ylabel('f_{\\text{res}}/L^2')
+else:
+    plt.xlabel('an')
+    plt.ylabel('fres/L**2')
+ax.plot(xlst,ylst,'-b', label='Change this text3')
+ax.plot(anl,freql,'-r', label='Change this text2')
 
 
 
@@ -109,9 +119,14 @@ myoutput=myodr.run()
 myoutput.pprint()
 
 yllst=f(myoutput.beta,xlst)
-ax.plot(xlst,yllst,':g')
+ax.plot(xlst,yllst,'-g', label='Change this text1')
 
-plt.show()
+if LaTeX_plot:
+    ax.legend()
+    tikzplotlib_fix_ncols(ax.legend())
+    tikzplotlib.save(filepath = "LaTeX_plots/hy.tex", figure=fig, extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+else:
+    plt.show()
 
 
 

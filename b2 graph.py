@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-
+matplotlib.use('Qt5Agg')
 
 LaTeX_plot = False
 

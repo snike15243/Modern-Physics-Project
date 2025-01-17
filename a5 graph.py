@@ -2,14 +2,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import matplotlib
-
+import tikzplotlib
+from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+matplotlib.use('Qt5Agg')
 
 LaTeX_plot = False
 
 fig=plt.figure()
 ax=fig.add_subplot()
 ax.set_ylim(-12,12)
-
+file_count = 0
 for i in range(6):
     name='Data2.0/dc_offset/dc_1_'+f'{i}'+'.xls'
     
@@ -30,23 +32,49 @@ for i in range(6):
         plt.title(f'{round(avg,1)} V')
     
     ax.plot(df[:,0],df[:,1],label=f'{round(avg,1)} V')
-    
+    if LaTeX_plot:
+        matplotlib.use('Qt5Agg')
+
+        plt.xlabel('Time (\\si{\\second})')
+    else:
+        plt.xlabel('Time (s)')
+    if LaTeX_plot:
+        plt.ylabel('Voltage (\\si{\\volt})')
+    else:
+        plt.ylabel('Voltage (V)')
+    # plt.title('Signal generator output for different dc offsets')
+    ax.legend()
+    #ax1.legend()
+    if LaTeX_plot:
+        tikzplotlib_fix_ncols(ax.legend())
+        #tikzplotlib_fix_ncols(ax1.legend())
+        ax.set_ylabel('Voltage (\\si{\\volt})')
+        ax.set_xlabel('Time (\\si{\\second})')
+        tikzplotlib.save(filepath=f"LaTeX_plots/A5{file_count}.tex",
+                         extra_tikzpicture_parameters=['trim axis left', 'trim axis right'],figure=fig1)
+        file_count += 1
+        tikzplotlib.save(filepath=f"LaTeX_plots/A5{file_count}.tex",
+                         extra_tikzpicture_parameters=['trim axis left', 'trim axis right'], figure=fig)
+        file_count += 1
 if LaTeX_plot:
     matplotlib.use('Qt5Agg')
-    import tikzplotlib
-    from Tikzplotlib_fixer import tikzplotlib_fix_ncols
+
     plt.xlabel('Time (\\si{\\second})')
+
 else:
     plt.xlabel('Time (s)')
+    ax.set_ylabel('Voltage (V)')
+    ax.set_xlabel('Time (s)')
 if LaTeX_plot:
     plt.ylabel('Voltage (\\si{\\volt})')
 else:
     plt.ylabel('Voltage (V)')
 #plt.title('Signal generator output for different dc offsets')
-plt.legend()
+#plt.legend()
 
 if LaTeX_plot:
-    tikzplotlib_fix_ncols(plt.legend())
-    tikzplotlib.save(filepath="LaTeX_plots/A5.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+    #tikzplotlib_fix_ncols(plt.legend())
+    tikzplotlib.save(filepath=f"LaTeX_plots/A5{file_count}.tex", extra_tikzpicture_parameters = ['trim axis left', 'trim axis right'])
+    file_count += 1
 else:
     plt.show()

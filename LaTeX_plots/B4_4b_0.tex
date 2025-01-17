@@ -19,22 +19,80 @@ xmin=-10, xmax=210,
 xtick style={color=black},
 y grid style={darkgray176},
 ylabel={Power (averaged over frequency) [\si{\decibel}]},
-ymin=-65.5320833333333, ymax=-62.1006944444444,
+ymin=-68.8678826205219, ymax=-56.9905108788257,
 ytick style={color=black}
 ]
-\addplot [semithick, red, forget plot]
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:0,-68.3229929639042)
+--(axis cs:0,-62.4292292583181);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:20,-67.4915413508239)
+--(axis cs:20,-62.2629030936205);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:40,-68.0431415003163)
+--(axis cs:40,-62.219080721906);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:60,-67.1465203189861)
+--(axis cs:60,-61.764590792125);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:80,-67.9583210513522)
+--(axis cs:80,-62.2539011708701);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:100,-68.2714546644684)
+--(axis cs:100,-61.5296564466428);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:120,-68.3280020868085)
+--(axis cs:120,-59.7142201354138);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:140,-67.5521776027937)
+--(axis cs:140,-59.6389335083174);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:160,-66.8359981084485)
+--(axis cs:160,-58.3773352248848);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:180,-67.0102851357168)
+--(axis cs:180,-58.2119370865054);
+
+\path [draw=red, semithick, dash pattern=on 7.5pt off 15pt]
+(axis cs:200,-66.9829419207942)
+--(axis cs:200,-57.5303914125392);
+
+\addplot [semithick, red, mark=-, mark size=5, mark options={solid}, only marks, forget plot]
 table {%
-0 -65.3761111111111
-20 -64.8772222222222
-40 -65.1311111111111
-60 -64.4555555555556
-80 -65.1061111111111
-100 -64.9005555555556
-120 -64.0211111111111
-140 -63.5955555555555
-160 -62.6066666666667
-180 -62.6111111111111
-200 -62.2566666666667
+0 -68.3229929639042
+20 -67.4915413508239
+40 -68.0431415003163
+60 -67.1465203189861
+80 -67.9583210513522
+100 -68.2714546644684
+120 -68.3280020868085
+140 -67.5521776027937
+160 -66.8359981084485
+180 -67.0102851357168
+200 -66.9829419207942
+};
+\addplot [semithick, red, mark=-, mark size=5, mark options={solid}, only marks, forget plot]
+table {%
+0 -62.4292292583181
+20 -62.2629030936205
+40 -62.219080721906
+60 -61.764590792125
+80 -62.2539011708701
+100 -61.5296564466428
+120 -59.7142201354138
+140 -59.6389335083174
+160 -58.3773352248848
+180 -58.2119370865054
+200 -57.5303914125392
 };
 \addplot [semithick, steelblue31119180, forget plot]
 table {%
@@ -237,6 +295,20 @@ table {%
 196.984924623116 -62.3213992330672
 197.989949748744 -62.2998217496843
 198.994974874372 -62.2782442153265
+200 -62.2566666666667
+};
+\addplot [semithick, red, forget plot]
+table {%
+0 -65.3761111111111
+20 -64.8772222222222
+40 -65.1311111111111
+60 -64.4555555555556
+80 -65.1061111111111
+100 -64.9005555555556
+120 -64.0211111111111
+140 -63.5955555555555
+160 -62.6066666666667
+180 -62.6111111111111
 200 -62.2566666666667
 };
 \end{axis}
